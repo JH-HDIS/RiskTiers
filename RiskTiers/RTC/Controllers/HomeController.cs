@@ -5,7 +5,6 @@ using RTC.Models;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
 
-
 namespace RTC.Controllers
 {
     public class HomeController : Controller
@@ -22,6 +21,7 @@ namespace RTC.Controllers
             // Create a list of DataClassification objects
             var dataClassifications = new List<DataClassification>
             {
+                // P - Preferred Data Storage Options
                 new DataClassification 
                 { 
                     DataLeavingJHM = true, 
@@ -44,7 +44,8 @@ namespace RTC.Controllers
                     ToolCategory = "P", 
                     ResourceCategory = "Preferred" 
                 },
-                // Add more DataClassification objects as needed
+
+                // J - Justifiable Data Storage Options
                 new DataClassification 
                 { 
                     DataLeavingJHM = false, 
@@ -66,30 +67,87 @@ namespace RTC.Controllers
                     ITJHRITManagedAzureAWS = false, 
                     ToolCategory = "J", 
                     ResourceCategory = "Justifiable" 
+                },
+
+                // R - Data Storage Options Requiring Review
+                new DataClassification 
+                { 
+                    DataLeavingJHM = true, 
+                    PHILDS = false, 
+                    PHI = true, 
+                    PII = false, 
+                    LDS = false, 
+                    PersonNoPHI = false, 
+                    Counts = false, 
+                    SAFERorSAFEDesktop = false, 
+                    JHPMAP = false, 
+                    JHUPhoenix = false, 
+                    JHUOpenSpecimen = false, 
+                    JHUQualtrics = false, 
+                    JHUACHREDCap = false, 
+                    SAFESTOR = false, 
+                    DiscoveryHPC = true, 
+                    EnterpriseNetworkStorageNAS = false, 
+                    ITJHRITManagedAzureAWS = true, 
+                    ToolCategory = "R", 
+                    ResourceCategory = "ReqReview" 
+                },
+
+                // E - External Data Storage Tools
+                new DataClassification 
+                { 
+                    DataLeavingJHM = false, 
+                    PHILDS = true, 
+                    PHI = true, 
+                    PII = true, 
+                    LDS = false, 
+                    PersonNoPHI = true, 
+                    Counts = true, 
+                    SAFERorSAFEDesktop = false, 
+                    JHPMAP = false, 
+                    JHUPhoenix = true, 
+                    JHUOpenSpecimen = false, 
+                    JHUQualtrics = true, 
+                    JHUACHREDCap = false, 
+                    SAFESTOR = false, 
+                    DiscoveryHPC = false, 
+                    EnterpriseNetworkStorageNAS = false, 
+                    ITJHRITManagedAzureAWS = false, 
+                    ToolCategory = "E", 
+                    ResourceCategory = "External" 
                 }
             };
 
             // Assign the list of DataClassification objects to the DataClassifications property of the UserResponse object
             var model = new UserResponse
             {
-                RTCCompletionDate = DateTime.Now,
-                IRBApplicationNumber = "123456",
-                PIFirstName = "John",
-                PILastName = "Doe",
-                PIJHED = "jdoe",
-                PIEmailAddress = "jdoe@example.com",
-                StudyContactFirstName = "Jane",
-                StudyContactLastName = "Smith",
-                StudyContactJHED = "jsmith",
-                StudyContactEmailAddress = "jsmith@example.com",
-                InvolvesSensitiveHealthInfo = true,
-                NumberOfPeopleOrRecords = 1,
-                HumanDataSharingLevel = 0,
-                AllActivitiesCoveredByConsent = true,
-                DataClassifications = dataClassifications // Assigning the data classifications here
+                RTCCompletionDate = DateTime.Now,  // Optionally set the default date
+                DataClassifications = dataClassifications // Initialize with pre-defined DataClassifications
             };
 
+            return View(model); // Pass the model to the view
+        }
+
+        [HttpPost]
+        public IActionResult Index(UserResponse model)
+        {
+            if (ModelState.IsValid)
+            {
+                // Process the model here, e.g., save it to the database
+                // Example: _context.UserResponses.Add(model);
+                //          _context.SaveChanges();
+
+                // Redirect to a confirmation page or show a success message
+                return RedirectToAction("Success");
+            }
+
+            // If the model is not valid, return the same view with the model to display validation errors
             return View(model);
+        }
+
+        public IActionResult Success()
+        {
+            return View(); // Display a success page
         }
 
         public IActionResult Privacy()

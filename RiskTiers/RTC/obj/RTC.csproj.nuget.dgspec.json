@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\bsharm12\\RiskTiersLocal\\RiskTiers\\RTC\\RTC.csproj": {}
+    "c:\\Users\\bsharm12\\GitFolderRTC\\RiskTiers\\RiskTiers\\RTC\\RTC.csproj": {}
   },
   "projects": {
-    "C:\\Users\\bsharm12\\RiskTiersLocal\\RiskTiers\\RTC\\RTC.csproj": {
+    "c:\\Users\\bsharm12\\GitFolderRTC\\RiskTiers\\RiskTiers\\RTC\\RTC.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\bsharm12\\RiskTiersLocal\\RiskTiers\\RTC\\RTC.csproj",
+        "projectUniqueName": "c:\\Users\\bsharm12\\GitFolderRTC\\RiskTiers\\RiskTiers\\RTC\\RTC.csproj",
         "projectName": "RTC",
-        "projectPath": "C:\\Users\\bsharm12\\RiskTiersLocal\\RiskTiers\\RTC\\RTC.csproj",
+        "projectPath": "c:\\Users\\bsharm12\\GitFolderRTC\\RiskTiers\\RiskTiers\\RTC\\RTC.csproj",
         "packagesPath": "C:\\Users\\bsharm12\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\bsharm12\\RiskTiersLocal\\RiskTiers\\RTC\\obj\\",
+        "outputPath": "c:\\Users\\bsharm12\\GitFolderRTC\\RiskTiers\\RiskTiers\\RTC\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\bsharm12\\AppData\\Roaming\\NuGet\\NuGet.Config",
