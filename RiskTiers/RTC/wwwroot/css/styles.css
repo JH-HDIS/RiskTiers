@@ -1,0 +1,59 @@
+/* General table styling */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px; /* Ensure space between table and footer */
+}
+
+th, td {
+    text-align: left;
+    padding: 8px;
+    border: 1px solid #ddd;
+}
+
+/* Ensure the form takes up the full width of its container */
+form {
+    width: 100%;
+}
+
+/* Make the table take the full width of the form */
+.table {
+    width: 100%;
+    table-layout: auto; /* This will allow the table to adjust column widths dynamically */
+}
+
+/* Submit button styling */
+.submit-button {
+    display: block;
+    margin: 10px auto;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* Footer styling */
+.footer {
+    position: fixed; /* Use 'relative' if you want the footer to be at the bottom of the content instead of the viewport */
+    bottom: 0;
+    width: 100%;
+    background-color: #00aaff;
+    text-align: center;
+    padding: 10px 0;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    table, th, td {
+        display: block;
+        width: 100%;
+    }
+
+    .footer {
+        position: relative;
+        bottom: 0;
+    }
+}
+

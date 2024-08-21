@@ -1,0 +1,94 @@
+/* General styles */
+html {
+  font-size: 14px;
+  position: relative;
+  min-height: 100%;
+  background-color: #e0f7fa; /* Pastel blue background */
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+body {
+  margin-bottom: 60px;
+  font-family: Arial, sans-serif;
+  color: #333;
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+/* Form styles */
+form {
+  background-color: #ffffff;
+  padding: 20px;
+  margin: 20px auto;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border: 1px solid #000000; /* Black border */
+  width: 100%; /* Make the form take the full width of its container */
+  max-width: none; /* Remove the maximum width restriction */
+  box-sizing: border-box; /* Include padding and border in the element's width */
+}
+
+form label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+form input[type="radio"],
+form input[type="checkbox"] {
+  margin-right: 10px;
+}
+
+form button[type="submit"] {
+  background-color: #4fc3f7; /* Pastel blue button */
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+form button[type="submit"]:hover {
+  background-color: #0288d1; /* Darker blue on hover */
+}
+
+/* Footer styles */
+footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 60px;
+  background-color: #4fc3f7; /* Pastel blue footer */
+  text-align: center;
+  padding: 10px 0;
+  color: white;
+  border-top: 2px solid #0288d1;
+}
+
+footer a {
+  color: #fff;
+  text-decoration: underline;
+}
+
+footer a:hover {
+  color: #b3e5fc;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  text-align: left;
+  padding: 8px;
+  border: 1px solid #ddd;
+}

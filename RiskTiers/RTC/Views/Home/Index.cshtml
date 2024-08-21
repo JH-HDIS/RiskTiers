@@ -1,0 +1,501 @@
+﻿@model RTC.Models.UserResponse
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Risk Tiers Calculator</title>
+
+    <!-- Link to your custom styles.css file -->
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- Link to Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <!-- Additional custom styles specific to this page -->
+    <style>
+        .form-section {
+            margin-bottom: 20px;
+        }
+        
+        .form-section label {
+            font-weight: bold;
+        }
+        
+        .section-title {
+            margin-top: 30px;
+            margin-bottom: 15px;
+            font-weight: bold;
+            font-size: 1.2em;
+            text-decoration: underline;
+        }
+        
+        .form-check-label {
+            margin-left: 10px;
+        }
+        
+        /* Added styles for wider form */
+        .form-container {
+            max-width: 90%; /* Set the form to take up 90% of the screen width */
+            margin: 0 auto; /* Center the form on the page */
+        }
+        
+        /* Ensure input fields take full width of their container */
+        .form-container input,
+        .form-container select,
+        .form-container textarea {
+            width: 100%;
+            box-sizing: border-box; /* Include padding and border in the element's width */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Risk Tiers Calculator</h1>
+        <form asp-action="Index" method="post">
+            <div class="form-section">
+                <label asp-for="RTCCompletionDate">RTC Completion Date</label>
+                <input asp-for="RTCCompletionDate" class="form-control" type="date" />
+                <span asp-validation-for="RTCCompletionDate" class="text-danger"></span>
+            </div>
+            <div class="form-section">
+                <label asp-for="IRBApplicationNumber">IRB Application Number</label>
+                <input asp-for="IRBApplicationNumber" class="form-control" />
+                <span asp-validation-for="IRBApplicationNumber" class="text-danger"></span>
+            </div>
+            <div class="form-section">
+                <label asp-for="PIFirstName">PI First Name</label>
+                <input asp-for="PIFirstName" class="form-control" />
+                <span asp-validation-for="PIFirstName" class="text-danger"></span>
+            </div>
+            <div class="form-section">
+                <label asp-for="PILastName">PI Last Name</label>
+                <input asp-for="PILastName" class="form-control" />
+                <span asp-validation-for="PILastName" class="text-danger"></span>
+            </div>
+            <div class="form-section">
+                <label asp-for="PIJHED">PI JHED</label>
+                <input asp-for="PIJHED" class="form-control" />
+                <span asp-validation-for="PIJHED" class="text-danger"></span>
+            </div>
+            <div class="form-section">
+                <label asp-for="PIEmailAddress">PI Email Address</label>
+                <input asp-for="PIEmailAddress" class="form-control" />
+                <span asp-validation-for="PIEmailAddress" class="text-danger"></span>
+            </div>
+            <div class="form-section">
+                <label asp-for="StudyContactFirstName">Study Contact First Name (optional)</label>
+                <input asp-for="StudyContactFirstName" class="form-control" />
+                <span asp-validation-for="StudyContactFirstName" class="text-danger"></span>
+            </div>
+            <div class="form-section">
+                <label asp-for="StudyContactLastName">Study Contact Last Name (optional)</label>
+                <input asp-for="StudyContactLastName" class="form-control" />
+                <span asp-validation-for="StudyContactLastName" class="text-danger"></span>
+            </div>
+            <div class="form-section">
+                <label asp-for="StudyContactJHED">Study Contact JHED (optional)</label>
+                <input asp-for="StudyContactJHED" class="form-control" />
+                <span asp-validation-for="StudyContactJHED" class="text-danger"></span>
+            </div>
+            <div class="form-section">
+                <label asp-for="StudyContactEmailAddress">Study Contact Email Address (optional)</label>
+                <input asp-for="StudyContactEmailAddress" class="form-control" />
+                <span asp-validation-for="StudyContactEmailAddress" class="text-danger"></span>
+            </div>
+
+            <div class="section-title" style="color: red; text-align: center;">
+                Section 1: Data Characteristics and Data Access
+            </div>
+
+            <div class="form-group">
+                <label asp-for="InvolvesSensitiveHealthInfo">1A. My study will involve storage or use of sensitive health information...</label>
+                <div class="form-check">
+                    <input asp-for="InvolvesSensitiveHealthInfo" class="form-check-input" type="radio" value="true" id="InvolvesSensitiveHealthInfoYes" />
+                    <label class="form-check-label" for="InvolvesSensitiveHealthInfoYes">Yes</label>
+                </div>
+                <div class="form-check">
+                    <input asp-for="InvolvesSensitiveHealthInfo" class="form-check-input" type="radio" value="false" id="InvolvesSensitiveHealthInfoNo" />
+                    <label class="form-check-label" for="InvolvesSensitiveHealthInfoNo">No</label>
+                </div>
+                <span asp-validation-for="InvolvesSensitiveHealthInfo" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="NumberOfPeopleOrRecords">1B. Number of people to be enrolled or records to be reviewed...</label>
+                <div class="form-check">
+                    <input asp-for="NumberOfPeopleOrRecords" class="form-check-input" type="radio" value="0" id="NumberOfPeopleOrRecords1" />
+                    <label class="form-check-label" for="NumberOfPeopleOrRecords1">1-499</label>
+                </div>
+                <div class="form-check">
+                    <input asp-for="NumberOfPeopleOrRecords" class="form-check-input" type="radio" value="1" id="NumberOfPeopleOrRecords2" />
+                    <label class="form-check-label" for="NumberOfPeopleOrRecords2">500-9,999</label>
+                </div>
+                <div class="form-check">
+                    <input asp-for="NumberOfPeopleOrRecords" class="form-check-input" type="radio" value="2" id="NumberOfPeopleOrRecords3" />
+                    <label class="form-check-label" for="NumberOfPeopleOrRecords3">10,000 or more</label>
+                </div>
+                <span asp-validation-for="NumberOfPeopleOrRecords" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="HumanDataSharingLevel">1C. What (if any) human data will be copied, moved, or shared...</label>
+                <div class="form-check">
+                    <input asp-for="HumanDataSharingLevel" class="form-check-input" type="radio" value="0" id="HumanDataSharingLevel1" />
+                    <label class="form-check-label" for="HumanDataSharingLevel1">Directly identifiable data</label>
+                </div>
+                <div class="form-check">
+                    <input asp-for="HumanDataSharingLevel" class="form-check-input" type="radio" value="1" id="HumanDataSharingLevel2" />
+                    <label class="form-check-label" for="HumanDataSharingLevel2">LDS</label>
+                </div>
+                <div class="form-check">
+                    <input asp-for="HumanDataSharingLevel" class="form-check-input" type="radio" value="2" id="HumanDataSharingLevel3" />
+                    <label class="form-check-label" for="HumanDataSharingLevel3">Person-level data with No PHI or PII</label>
+                </div>
+                <div class="form-check">
+                    <input asp-for="HumanDataSharingLevel" class="form-check-input" type="radio" value="3" id="HumanDataSharingLevel4" />
+                    <label class="form-check-label" for="HumanDataSharingLevel4">Aggregate (counts)</label>
+                </div>
+                <div class="form-check">
+                    <input asp-for="HumanDataSharingLevel" class="form-check-input" type="radio" value="4" id="HumanDataSharingLevel5" />
+                    <label class="form-check-label" for="HumanDataSharingLevel5">Data will not be copied, moved, or shared</label>
+                </div>
+                <span asp-validation-for="HumanDataSharingLevel" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="AllActivitiesCoveredByConsent">1D. Are all activities (including any use or disclosure) covered by consent?</label>
+                <div class="form-check">
+                    <input asp-for="AllActivitiesCoveredByConsent" class="form-check-input" type="radio" value="true" id="AllActivitiesCoveredByConsentYes" />
+                    <label class="form-check-label" for="AllActivitiesCoveredByConsentYes">Yes</label>
+                </div>
+                <div class="form-check">
+                    <input asp-for="AllActivitiesCoveredByConsent" class="form-check-input" type="radio" value="false" id="AllActivitiesCoveredByConsentNo" />
+                    <label class="form-check-label" for="AllActivitiesCoveredByConsentNo">No</label>
+                </div>
+                <span asp-validation-for="AllActivitiesCoveredByConsent" class="text-danger"></span>
+            </div>
+            
+            <div class="section-title" style="color: red; text-align: center;">
+    Section 2: Data Storage
+</div>
+<p style="text-align: center;"><strong>• In each of the 4 field groups below, indicate where data will be stored or analyzed (select all that apply).</strong></p>
+
+            <div class="mt-5">
+                <h2>Data Table</h2>
+                @if (Model.DataClassifications != null && Model.DataClassifications.Any())
+                {
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Option</th>
+                                <th>Not Used</th>
+                                <th>Text PHI</th>
+                                <th>PHI > LDS</th>
+                                <th>LDS</th>
+                                <th>PHI but no PII</th>
+                                <th>No PHI/PII</th>
+                                <th>Aggregate</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- (P) Preferred Data Storage Options Section -->
+                            <tr>
+                                <td colspan="8" style="font-weight: bold; text-align: left;">
+                                    (P) Preferred Data Storage Options - 
+                                    <a href="#">(Click here for more information on "Levels of Identification")</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>SAFER or SAFE Desktop</td>
+                                <td><input type="checkbox" name="SAFERorSAFEDesktop_NotUsed" /></td>
+                                <td><input type="checkbox" name="SAFERorSAFEDesktop_TextPHI" /></td>
+                                <td><input type="checkbox" name="SAFERorSAFEDesktop_PHIgtLDS" /></td>
+                                <td><input type="checkbox" name="SAFERorSAFEDesktop_LDS" /></td>
+                                <td><input type="checkbox" name="SAFERorSAFEDesktop_PHIButNoPII" /></td>
+                                <td><input type="checkbox" name="SAFERorSAFEDesktop_NoPHIPII" /></td>
+                                <td><input type="checkbox" name="SAFERorSAFEDesktop_Aggregate" /></td>
+                            </tr>
+                            <tr>
+                                <td>JH PMAP</td>
+                                <td><input type="checkbox" name="JHPMAP_NotUsed" /></td>
+                                <td><input type="checkbox" name="JHPMAP_TextPHI" /></td>
+                                <td><input type="checkbox" name="JHPMAP_PHIgtLDS" /></td>
+                                <td><input type="checkbox" name="JHPMAP_LDS" /></td>
+                                <td><input type="checkbox" name="JHPMAP_PHIButNoPII" /></td>
+                                <td><input type="checkbox" name="JHPMAP_NoPHIPII" /></td>
+                                <td><input type="checkbox" name="JHPMAP_Aggregate" /></td>
+                            </tr>
+                            <tr>
+                                <td>JHU Phoenix</td>
+                                <td><input type="checkbox" name="JHUPhoenix_NotUsed" /></td>
+                                <td><input type="checkbox" name="JHUPhoenix_TextPHI" /></td>
+                                <td><input type="checkbox" name="JHUPhoenix_PHIgtLDS" /></td>
+                                <td><input type="checkbox" name="JHUPhoenix_LDS" /></td>
+                                <td><input type="checkbox" name="JHUPhoenix_PHIButNoPII" /></td>
+                                <td><input type="checkbox" name="JHUPhoenix_NoPHIPII" /></td>
+                                <td><input type="checkbox" name="JHUPhoenix_Aggregate" /></td>
+                            </tr>
+                            <tr>
+                                <td>JHU OpenSpecimen</td>
+                                <td><input type="checkbox" name="JHUOpenSpecimen_NotUsed" /></td>
+                                <td><input type="checkbox" name="JHUOpenSpecimen_TextPHI" /></td>
+                                <td><input type="checkbox" name="JHUOpenSpecimen_PHIgtLDS" /></td>
+                                <td><input type="checkbox" name="JHUOpenSpecimen_LDS" /></td>
+                                <td><input type="checkbox" name="JHUOpenSpecimen_PHIButNoPII" /></td>
+                                <td><input type="checkbox" name="JHUOpenSpecimen_NoPHIPII" /></td>
+                                <td><input type="checkbox" name="JHUOpenSpecimen_Aggregate" /></td>
+                            </tr>
+                            <tr>
+                                <td>JHU Qualtrics</td>
+                                <td><input type="checkbox" name="JHUQualtrics_NotUsed" /></td>
+                                <td><input type="checkbox" name="JHUQualtrics_TextPHI" /></td>
+                                <td><input type="checkbox" name="JHUQualtrics_PHIgtLDS" /></td>
+                                <td><input type="checkbox" name="JHUQualtrics_LDS" /></td>
+                                <td><input type="checkbox" name="JHUQualtrics_PHIButNoPII" /></td>
+                                <td><input type="checkbox" name="JHUQualtrics_NoPHIPII" /></td>
+                                <td><input type="checkbox" name="JHUQualtrics_Aggregate" /></td>
+                            </tr>
+                            <tr>
+                                <td>JHU/ACH REDCap</td>
+                                <td><input type="checkbox" name="JHUACHREDCap_NotUsed" /></td>
+                                <td><input type="checkbox" name="JHUACHREDCap_TextPHI" /></td>
+                                <td><input type="checkbox" name="JHUACHREDCap_PHIgtLDS" /></td>
+                                <td><input type="checkbox" name="JHUACHREDCap_LDS" /></td>
+                                <td><input type="checkbox" name="JHUACHREDCap_PHIButNoPII" /></td>
+                                <td><input type="checkbox" name="JHUACHREDCap_NoPHIPII" /></td>
+                                <td><input type="checkbox" name="JHUACHREDCap_Aggregate" /></td>
+                            </tr>
+                            <tr>
+                                <td>SAFESTOR</td>
+                                <td><input type="checkbox" name="SAFESTOR_NotUsed" /></td>
+                                <td><input type="checkbox" name="SAFESTOR_TextPHI" /></td>
+                                <td><input type="checkbox" name="SAFESTOR_PHIgtLDS" /></td>
+                                <td><input type="checkbox" name="SAFESTOR_LDS" /></td>
+                                <td><input type="checkbox" name="SAFESTOR_PHIButNoPII" /></td>
+                                <td><input type="checkbox" name="SAFESTOR_NoPHIPII" /></td>
+                                <td><input type="checkbox" name="SAFESTOR_Aggregate" /></td>
+                            </tr>
+                            <tr>
+                                <td>Discovery HPC</td>
+                                <td><input type="checkbox" name="DiscoveryHPC_NotUsed" /></td>
+                                <td><input type="checkbox" name="DiscoveryHPC_TextPHI" /></td>
+                                <td><input type="checkbox" name="DiscoveryHPC_PHIgtLDS" /></td>
+                                <td><input type="checkbox" name="DiscoveryHPC_LDS" /></td>
+                                <td><input type="checkbox" name="DiscoveryHPC_PHIButNoPII" /></td>
+                                <td><input type="checkbox" name="DiscoveryHPC_NoPHIPII" /></td>
+                                <td><input type="checkbox" name="DiscoveryHPC_Aggregate" /></td>
+                            </tr>
+                            <tr>
+                                <td>Enterprise Network Storage (NAS)</td>
+                                <td><input type="checkbox" name="EnterpriseNetworkStorageNAS_NotUsed" /></td>
+                                <td><input type="checkbox" name="EnterpriseNetworkStorageNAS_TextPHI" /></td>
+                                <td><input type="checkbox" name="EnterpriseNetworkStorageNAS_PHIgtLDS" /></td>
+                                <td><input type="checkbox" name="EnterpriseNetworkStorageNAS_LDS" /></td>
+                                <td><input type="checkbox" name="EnterpriseNetworkStorageNAS_PHIButNoPII" /></td>
+                                <td><input type="checkbox" name="EnterpriseNetworkStorageNAS_NoPHIPII" /></td>
+                                <td><input type="checkbox" name="EnterpriseNetworkStorageNAS_Aggregate" /></td>
+                            </tr>
+                            <tr>
+                                <td>IT@JH RIT-managed Azure or AWS subscription</td>
+                                <td><input type="checkbox" name="ITJHRITManagedAzureAWS_NotUsed" /></td>
+                                <td><input type="checkbox" name="ITJHRITManagedAzureAWS_TextPHI" /></td>
+                                <td><input type="checkbox" name="ITJHRITManagedAzureAWS_PHIgtLDS" /></td>
+                                <td><input type="checkbox" name="ITJHRITManagedAzureAWS_LDS" /></td>
+                                <td><input type="checkbox" name="ITJHRITManagedAzureAWS_PHIButNoPII" /></td>
+                                <td><input type="checkbox" name="ITJHRITManagedAzureAWS_NoPHIPII" /></td>
+                                <td><input type="checkbox" name="ITJHRITManagedAzureAWS_Aggregate" /></td>
+                            </tr>
+                            
+                            <!-- (J) Justifiable Data Storage Options Section -->
+                            <tr>
+                                <td colspan="8" style="font-weight: bold; text-align: left;">
+                                    (J) Justifiable Data Storage Options - (Requiring JHED Authenticated Network Access)
+                                    <a href="#">(Click here for more information on "Levels of Identification")</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>JH OneDrive / SharePoint / Teams</td>
+                                <td><input type="checkbox" name="OneDrive_NotUsed" /></td>
+                                <td><input type="checkbox" name="OneDrive_TextPHI" /></td>
+                                <td><input type="checkbox" name="OneDrive_PHIgtLDS" /></td>
+                                <td><input type="checkbox" name="OneDrive_LDS" /></td>
+                                <td><input type="checkbox" name="OneDrive_PHIButNoPII" /></td>
+                                <td><input type="checkbox" name="OneDrive_NoPHIPII" /></td>
+                                <td><input type="checkbox" name="OneDrive_Aggregate" /></td>
+                            </tr>
+                            <tr>
+                                <td>Local Computer (both JH owned and IT@JH managed)</td>
+                                <td><input type="checkbox" name="LocalComputer_NotUsed" /></td>
+                                <td><input type="checkbox" name="LocalComputer_TextPHI" /></td>
+                                <td><input type="checkbox" name="LocalComputer_PHIgtLDS" /></td>
+                                <td><input type="checkbox" name="LocalComputer_LDS" /></td>
+                                <td><input type="checkbox" name="LocalComputer_PHIButNoPII" /></td>
+                                <td><input type="checkbox" name="LocalComputer_NoPHIPII" /></td>
+                                <td><input type="checkbox" name="LocalComputer_Aggregate" /></td>
+                            </tr>
+                            
+                            <!-- (E) External Data Storage Tools Section -->
+                            <tr>
+                                <td colspan="8" style="font-weight: bold; text-align: left;">
+                                    (E) External Data Storage Tools
+                                    <a href="#">(Click here for more information on "Levels of Identification")</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Non-JHU REDCap</td>
+                                <td><input type="checkbox" name="NonJHU_REDCap_NotUsed" /></td>
+                                <td><input type="checkbox" name="NonJHU_REDCap_TextPHI" /></td>
+                                <td><input type="checkbox" name="NonJHU_REDCap_PHIgtLDS" /></td>
+                                <td><input type="checkbox" name="NonJHU_REDCap_LDS" /></td>
+                                <td><input type="checkbox" name="NonJHU_REDCap_PHIButNoPII" /></td>
+                                <td><input type="checkbox" name="NonJHU_REDCap_NoPHIPII" /></td>
+                                <td><input type="checkbox" name="NonJHU_REDCap_Aggregate" /></td>
+                            </tr>
+                            <tr>
+                                <td>Non-JHU System (e.g., Velos, Medidata RAVE, etc.)</td>
+                                <td><input type="checkbox" name="NonJHUSystem_NotUsed" /></td>
+                                <td><input type="checkbox" name="NonJHUSystem_TextPHI" /></td>
+                                <td><input type="checkbox" name="NonJHUSystem_PHIgtLDS" /></td>
+                                <td><input type="checkbox" name="NonJHUSystem_LDS" /></td>
+                                <td><input type="checkbox" name="NonJHUSystem_PHIButNoPII" /></td>
+                                <td><input type="checkbox" name="NonJHUSystem_NoPHIPII" /></td>
+                                <td><input type="checkbox" name="NonJHUSystem_Aggregate" /></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                }
+                else
+                {
+                    <p>No data available.</p>
+                }
+            </div>
+
+            <div class="mt-4">
+                <p><strong>Is the sharing of data via this external tool included in an agreement handled by <a href="#">ORA</a> or <a href="#">JHURA</a>? </strong></p>
+                <!-- Add radio buttons for Yes/No -->
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="DataSharingAgreement" value="Yes" id="DataSharingYes">
+            <label class="form-check-label" for="DataSharingYes">
+                Yes
+            </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="DataSharingAgreement" value="No" id="DataSharingNo">
+            <label class="form-check-label" for="DataSharingNo">
+                No
+            </label>
+            </div>
+            </div>
+
+            <!-- Repeat the same table structure as above for the new section -->
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Option</th>
+                        <th>Not Used</th>
+                        <th>Text PHI</th>
+                        <th>PHI > LDS</th>
+                        <th>LDS</th>
+                        <th>PHI but no PII</th>
+                        <th>No PHI/PII</th>
+                        <th>Aggregate</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td colspan="8" style="font-weight: bold; text-align: left;">
+                            (R) Data Storage Options Requiring Review
+                            <a href="#">(Click here for more information on "Levels of Identification")</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Department Server (not managed by IT@JH)</td>
+                        <td><input type="checkbox" name="DepartmentServer_NotUsed" /></td>
+                        <td><input type="checkbox" name="DepartmentServer_TextPHI" /></td>
+                        <td><input type="checkbox" name="DepartmentServer_PHIgtLDS" /></td>
+                        <td><input type="checkbox" name="DepartmentServer_LDS" /></td>
+                        <td><input type="checkbox" name="DepartmentServer_PHIButNoPII" /></td>
+                        <td><input type="checkbox" name="DepartmentServer_NoPHIPII" /></td>
+                        <td><input type="checkbox" name="DepartmentServer_Aggregate" /></td>
+                    </tr>
+                    <tr>
+                        <td>Other computer(s) or Device(s) owned and managed by study team members</td>
+                        <td><input type="checkbox" name="OtherComputers_NotUsed" /></td>
+                        <td><input type="checkbox" name="OtherComputers_TextPHI" /></td>
+                        <td><input type="checkbox" name="OtherComputers_PHIgtLDS" /></td>
+                        <td><input type="checkbox" name="OtherComputers_LDS" /></td>
+                        <td><input type="checkbox" name="OtherComputers_PHIButNoPII" /></td>
+                        <td><input type="checkbox" name="OtherComputers_NoPHIPII" /></td>
+                        <td><input type="checkbox" name="OtherComputers_Aggregate" /></td>
+                    </tr>
+                    <tr>
+                        <td>USB/Portable Data Storage Device</td>
+                        <td><input type="checkbox" name="USB_NotUsed" /></td>
+                        <td><input type="checkbox" name="USB_TextPHI" /></td>
+                        <td><input type="checkbox" name="USB_PHIgtLDS" /></td>
+                        <td><input type="checkbox" name="USB_LDS" /></td>
+                        <td><input type="checkbox" name="USB_PHIButNoPII" /></td>
+                        <td><input type="checkbox" name="USB_NoPHIPII" /></td>
+                        <td><input type="checkbox" name="USB_Aggregate" /></td>
+                    </tr>
+                    <tr>
+                        <td>Joint High Performance Computing Exchange (JHPCE)</td>
+                        <td><input type="checkbox" name="JHPCE_NotUsed" /></td>
+                        <td><input type="checkbox" name="JHPCE_TextPHI" /></td>
+                        <td><input type="checkbox" name="JHPCE_PHIgtLDS" /></td>
+                        <td><input type="checkbox" name="JHPCE_LDS" /></td>
+                        <td><input type="checkbox" name="JHPCE_PHIButNoPII" /></td>
+                        <td><input type="checkbox" name="JHPCE_NoPHIPII" /></td>
+                        <td><input type="checkbox" name="JHPCE_Aggregate" /></td>
+                    </tr>
+                    <tr>
+                        <td>JHU ARCH (formerly MARCC)</td>
+                        <td><input type="checkbox" name="JHUARCH_NotUsed" /></td>
+                        <td><input type="checkbox" name="JHUARCH_TextPHI" /></td>
+                        <td><input type="checkbox" name="JHUARCH_PHIgtLDS" /></td>
+                        <td><input type="checkbox" name="JHUARCH_LDS" /></td>
+                        <td><input type="checkbox" name="JHUARCH_PHIButNoPII" /></td>
+                        <td><input type="checkbox" name="JHUARCH_NoPHIPII" /></td>
+                        <td><input type="checkbox" name="JHUARCH_Aggregate" /></td>
+                    </tr>
+                    <tr>
+                        <td>Other solution not managed by IT@JH, such as cloud storage (Box, Dropbox ...)</td>
+                        <td><input type="checkbox" name="OtherSolutions_NotUsed" /></td>
+                        <td><input type="checkbox" name="OtherSolutions_TextPHI" /></td>
+                        <td><input type="checkbox" name="OtherSolutions_PHIgtLDS" /></td>
+                        <td><input type="checkbox" name="OtherSolutions_LDS" /></td>
+                        <td><input type="checkbox" name="OtherSolutions_PHIButNoPII" /></td>
+                        <td><input type="checkbox" name="OtherSolutions_NoPHIPII" /></td>
+                        <td><input type="checkbox" name="OtherSolutions_Aggregate" /></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+
+
+
+            <button type="submit" class="btn btn-primary">Submit</button>
+
+
+        <!-- Added Table HTML -->
+       
+    </div>
+
+<!-- Load jQuery first -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<!-- Load Bootstrap JS -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<!-- Load your custom JavaScript last -->
+<script src="~/js/logic.js"></script>
+@section Scripts {
+    <script src="~/logic.js"></script>
+}
+
+
+</body>
+</html>
