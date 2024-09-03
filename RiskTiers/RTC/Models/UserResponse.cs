@@ -36,16 +36,16 @@ namespace RTC.Models
         public string? StudyContactEmailAddress { get; set; }
 
         [Required]
-        public bool InvolvesSensitiveHealthInfo { get; set; }
+        public bool? InvolvesSensitiveHealthInfo { get; set; }
 
         [Required]
-        public int NumberOfPeopleOrRecords { get; set; }
+        public int? NumberOfPeopleOrRecords { get; set; }
 
         [Required]
-        public int HumanDataSharingLevel { get; set; }
+        public int? HumanDataSharingLevel { get; set; }
 
         [Required]
-        public bool AllActivitiesCoveredByConsent { get; set; }
+        public bool? AllActivitiesCoveredByConsent { get; set; }
 
         // Add back the property for DataClassifications
         public List<DataClassification> DataClassifications { get; set; } = new List<DataClassification>();
