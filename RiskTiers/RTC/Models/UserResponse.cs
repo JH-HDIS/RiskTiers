@@ -9,45 +9,30 @@ namespace RTC.Models
     {
         public int Id { get; set; }
 
-        [Required]
-        public DateTime RTCCompletionDate { get; set; }
+        // RTCCompletionDate is not required
+        public DateTime? RTCCompletionDate { get; set; }
 
+        // Only the IRBApplicationNumber is required
         [Required]
         public string? IRBApplicationNumber { get; set; }
 
-        [Required]
+        // All other fields are not required
         public string? PIFirstName { get; set; }
-
-        [Required]
         public string? PILastName { get; set; }
-
-        [Required]
         public string? PIJHED { get; set; }
-
-        [Required]
         public string? PIEmailAddress { get; set; }
-
         public string? StudyContactFirstName { get; set; }
-
         public string? StudyContactLastName { get; set; }
-
         public string? StudyContactJHED { get; set; }
-
         public string? StudyContactEmailAddress { get; set; }
 
-        [Required]
+        // Optional fields for booleans and integers
         public bool? InvolvesSensitiveHealthInfo { get; set; }
-
-        [Required]
         public int? NumberOfPeopleOrRecords { get; set; }
-
-        [Required]
         public int? HumanDataSharingLevel { get; set; }
-
-        [Required]
         public bool? AllActivitiesCoveredByConsent { get; set; }
 
-        // Add back the property for DataClassifications
+        // List of DataClassifications (not required)
         public List<DataClassification> DataClassifications { get; set; } = new List<DataClassification>();
     }
 }

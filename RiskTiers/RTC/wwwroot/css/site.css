@@ -34,7 +34,9 @@ form {
   max-width: none; /* Remove the maximum width restriction */
   box-sizing: border-box; /* Include padding and border in the element's width */
 }
-
+.form-check-label {
+  visibility: visible !important;
+}
 form label {
   display: block;
   margin-bottom: 5px;
