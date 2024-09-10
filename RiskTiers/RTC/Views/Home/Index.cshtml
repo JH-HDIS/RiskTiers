@@ -194,15 +194,15 @@
                     <thead>
                         <tr>
                             <th>Option</th>
-                            <th>Text PHI</th>
-                            <th>PHI > LDS</th>
-                            <th>LDS</th>
-                            <th>PHI but no PII</th>
-                            <th>No PHI/PII</th>
-                            <th>Aggregate (Counts)</th>
-                            <th>Not Used</th>
-                        </tr>
-                    </thead>
+                            <th title="Text PHI – Text Protected Health Information">Text PHI</th>
+                            <th title="PHI>LDS - Protected Health Information greater than a Limited Dataset">PHI > LDS</th>
+                            <th title="LDS – Limited Dataset. See footnote 1 for definition.">LDS</th>
+                            <th title="PHI but no PII – Protected Health Information but no Personally Identifiable Information">PHI but no PII</th>
+                            <th title="No PHI/PII – No Protected Health Information or Personally Identifiable Information">No PHI/PII</th>
+                            <th title="Aggregate (Counts) – Summary data in aggregate form">Aggregate (Counts)</th>
+                            <th title="Not Used – This option is not selected or applicable">Not Used</th>
+    </tr>
+</thead>
                     <tbody>
                         <!-- (P) Preferred Data Storage Options Section -->
                         <tr>
@@ -213,96 +213,96 @@
                                 </a>
                             </td>
                         </tr>
+                         <tr>
+        <td>2.P.1 <a href="https://researchit.jhu.edu/safer/" target="_blank">SAFER</a> or <a href="https://researchit.jhu.edu/safer/" target="_blank">SAFE Desktop</a></td>
+        <td><input type="radio" name="SAFERorSAFEDesktop" value="TextPHI" /></td>
+        <td><input type="radio" name="SAFERorSAFEDesktop" value="PHIgtLDS" /></td>
+        <td><input type="radio" name="SAFERorSAFEDesktop" value="LDS" /></td>
+        <td><input type="radio" name="SAFERorSAFEDesktop" value="PHIButNoPII" /></td>
+        <td><input type="radio" name="SAFERorSAFEDesktop" value="NoPHIPII" /></td>
+        <td><input type="radio" name="SAFERorSAFEDesktop" value="Aggregate" /></td>
+        <td><input type="radio" name="SAFERorSAFEDesktop" value="NotUsed" /></td>
+    </tr>
                         <tr>
-                            <td>2.P.1 <a href="https://researchit.jhu.edu/safer/" target="_blank">SAFER</a> or <a href="https://researchit.jhu.edu/safer/" target="_blank">SAFE Desktop</a></td>
-                            <td><input type="radio" name="SAFERorSAFEDesktop_TextPHI" /></td>
-                            <td><input type="radio" name="SAFERorSAFEDesktop_PHIgtLDS" /></td>
-                            <td><input type="radio" name="SAFERorSAFEDesktop_LDS" /></td>
-                            <td><input type="radio" name="SAFERorSAFEDesktop_PHIButNoPII" /></td>
-                            <td><input type="radio" name="SAFERorSAFEDesktop_NoPHIPII" /></td>
-                            <td><input type="radio" name="SAFERorSAFEDesktop_Aggregate" /></td>
-                            <td><input type="radio" name="SAFERorSAFEDesktop_NotUsed" /></td>
-                        </tr>
+        <td>2.P.2 <a href="https://ictr.johnshopkins.edu/service/informatics/pmap/" target="_blank">JH PMAP</a></td>
+        <td><input type="radio" name="JHPMAP" value="TextPHI" /></td>
+        <td><input type="radio" name="JHPMAP" value="PHIgtLDS" /></td>
+        <td><input type="radio" name="JHPMAP" value="LDS" /></td>
+        <td><input type="radio" name="JHPMAP" value="PHIButNoPII" /></td>
+        <td><input type="radio" name="JHPMAP" value="NoPHIPII" /></td>
+        <td><input type="radio" name="JHPMAP" value="Aggregate" /></td>
+        <td><input type="radio" name="JHPMAP" value="NotUsed" /></td>
+    </tr>
                         <tr>
-                            <td>2.P.2 <a href="https://ictr.johnshopkins.edu/service/informatics/pmap/" target="_blank">JH PMAP</a></td>
-                            <td><input type="radio" name="JHPMAP_TextPHI" /></td>
-                            <td><input type="radio" name="JHPMAP_PHIgtLDS" /></td>
-                            <td><input type="radio" name="JHPMAP_LDS" /></td>
-                            <td><input type="radio" name="JHPMAP_PHIButNoPII" /></td>
-                            <td><input type="radio" name="JHPMAP_NoPHIPII" /></td>
-                            <td><input type="radio" name="JHPMAP_Aggregate" /></td>
-                            <td><input type="radio" name="JHPMAP_NotUsed" /></td>
-                        </tr>
+        <td>2.P.3 <a href="https://ictr.johnshopkins.edu/service/informatics/openspecimen/" target="_blank">JHU OpenSpecimen</a></td>
+        <td><input type="radio" name="JHUOpenSpecimen" value="TextPHI" /></td>
+        <td><input type="radio" name="JHUOpenSpecimen" value="PHIgtLDS" /></td>
+        <td><input type="radio" name="JHUOpenSpecimen" value="LDS" /></td>
+        <td><input type="radio" name="JHUOpenSpecimen" value="PHIButNoPII" /></td>
+        <td><input type="radio" name="JHUOpenSpecimen" value="NoPHIPII" /></td>
+        <td><input type="radio" name="JHUOpenSpecimen" value="Aggregate" /></td>
+        <td><input type="radio" name="JHUOpenSpecimen" value="NotUsed" /></td>
+    </tr>
                         <tr>
-                            <td>2.P.3 <a href="https://ictr.johnshopkins.edu/service/informatics/openspecimen/" target="_blank">JHU OpenSpecimen</a></td>
-                            <td><input type="radio" name="JHUOpenSpecimen_TextPHI" /></td>
-                            <td><input type="radio" name="JHUOpenSpecimen_PHIgtLDS" /></td>
-                            <td><input type="radio" name="JHUOpenSpecimen_LDS" /></td>
-                            <td><input type="radio" name="JHUOpenSpecimen_PHIButNoPII" /></td>
-                            <td><input type="radio" name="JHUOpenSpecimen_NoPHIPII" /></td>
-                            <td><input type="radio" name="JHUOpenSpecimen_Aggregate" /></td>
-                            <td><input type="radio" name="JHUOpenSpecimen_NotUsed" /></td>
-                        </tr>
-                        <tr>
-                            <td>2.P.4 <a href="https://uis.jhu.edu/qualtrics/" target="_blank">JHU Qualtrics</a></td>
-                            <td><input type="radio" name="JHUQualtrics_TextPHI" /></td>
-                            <td><input type="radio" name="JHUQualtrics_PHIgtLDS" /></td>
-                            <td><input type="radio" name="JHUQualtrics_LDS" /></td>
-                            <td><input type="radio" name="JHUQualtrics_PHIButNoPII" /></td>
-                            <td><input type="radio" name="JHUQualtrics_NoPHIPII" /></td>
-                            <td><input type="radio" name="JHUQualtrics_Aggregate" /></td>
-                            <td><input type="radio" name="JHUQualtrics_NotUsed" /></td>
-                        </tr>
-                        <tr>
-                            <td>2.P.5 <a href="https://redcap.jhu.edu/" target="_blank">JHU/ACH REDCap</a></td>
-                            <td><input type="radio" name="JHUACHREDCap_TextPHI" /></td>
-                            <td><input type="radio" name="JHUACHREDCap_PHIgtLDS" /></td>
-                            <td><input type="radio" name="JHUACHREDCap_LDS" /></td>
-                            <td><input type="radio" name="JHUACHREDCap_PHIButNoPII" /></td>
-                            <td><input type="radio" name="JHUACHREDCap_NoPHIPII" /></td>
-                            <td><input type="radio" name="JHUACHREDCap_Aggregate" /></td>
-                            <td><input type="radio" name="JHUACHREDCap_NotUsed" /></td>
-                        </tr>
-                        <tr>
-                            <td>2.P.6 <a href="https://researchit.jhu.edu/safe-stor/" target="_blank">SAFESTOR</a></td>
-                            <td><input type="radio" name="SAFESTOR_TextPHI" /></td>
-                            <td><input type="radio" name="SAFESTOR_PHIgtLDS" /></td>
-                            <td><input type="radio" name="SAFESTOR_LDS" /></td>
-                            <td><input type="radio" name="SAFESTOR_PHIButNoPII" /></td>
-                            <td><input type="radio" name="SAFESTOR_NoPHIPII" /></td>
-                            <td><input type="radio" name="SAFESTOR_Aggregate" /></td>
-                            <td><input type="radio" name="SAFESTOR_NotUsed" /></td>
-                        </tr>
-                        <tr>
-                            <td>2.P.7 <a href="https://researchit.jhu.edu/research-hpc/" target="_blank">Discovery HPC</a></td>
-                            <td><input type="radio" name="DiscoveryHPC_TextPHI" /></td>
-                            <td><input type="radio" name="DiscoveryHPC_PHIgtLDS" /></td>
-                            <td><input type="radio" name="DiscoveryHPC_LDS" /></td>
-                            <td><input type="radio" name="DiscoveryHPC_PHIButNoPII" /></td>
-                            <td><input type="radio" name="DiscoveryHPC_NoPHIPII" /></td>
-                            <td><input type="radio" name="DiscoveryHPC_Aggregate" /></td>
-                            <td><input type="radio" name="DiscoveryHPC_NotUsed" /></td>
-                        </tr>
-                        <tr>
-                            <td>2.P.8 <a href="https://researchit.jhu.edu/" target="_blank">Enterprise Network Storage (NAS)</a></td>
-                            <td><input type="radio" name="EnterpriseNetworkStorageNAS_TextPHI" /></td>
-                            <td><input type="radio" name="EnterpriseNetworkStorageNAS_PHIgtLDS" /></td>
-                            <td><input type="radio" name="EnterpriseNetworkStorageNAS_LDS" /></td>
-                            <td><input type="radio" name="EnterpriseNetworkStorageNAS_PHIButNoPII" /></td>
-                            <td><input type="radio" name="EnterpriseNetworkStorageNAS_NoPHIPII" /></td>
-                            <td><input type="radio" name="EnterpriseNetworkStorageNAS_Aggregate" /></td>
-                            <td><input type="radio" name="EnterpriseNetworkStorageNAS_NotUsed" /></td>
-                        </tr>
-                        <tr>
-                            <td>2.P.9 IT@JH RIT-managed Azure or AWS subscription</td>
-                            <td><input type="radio" name="ITJHRITManagedAzureAWS_TextPHI" /></td>
-                            <td><input type="radio" name="ITJHRITManagedAzureAWS_PHIgtLDS" /></td>
-                            <td><input type="radio" name="ITJHRITManagedAzureAWS_LDS" /></td>
-                            <td><input type="radio" name="ITJHRITManagedAzureAWS_PHIButNoPII" /></td>
-                            <td><input type="radio" name="ITJHRITManagedAzureAWS_NoPHIPII" /></td>
-                            <td><input type="radio" name="ITJHRITManagedAzureAWS_Aggregate" /></td>
-                            <td><input type="radio" name="ITJHRITManagedAzureAWS_NotUsed" /></td>
-                        </tr>
+        <td>2.P.4 <a href="https://uis.jhu.edu/qualtrics/" target="_blank">JHU Qualtrics</a></td>
+        <td><input type="radio" name="JHUQualtrics" value="TextPHI" /></td>
+        <td><input type="radio" name="JHUQualtrics" value="PHIgtLDS" /></td>
+        <td><input type="radio" name="JHUQualtrics" value="LDS" /></td>
+        <td><input type="radio" name="JHUQualtrics" value="PHIButNoPII" /></td>
+        <td><input type="radio" name="JHUQualtrics" value="NoPHIPII" /></td>
+        <td><input type="radio" name="JHUQualtrics" value="Aggregate" /></td>
+        <td><input type="radio" name="JHUQualtrics" value="NotUsed" /></td>
+    </tr>
+    <tr>
+        <td>2.P.5 <a href="https://redcap.jhu.edu/" target="_blank">JHU/ACH REDCap</a></td>
+        <td><input type="radio" name="JHUACHREDCap" value="TextPHI" /></td>
+        <td><input type="radio" name="JHUACHREDCap" value="PHIgtLDS" /></td>
+        <td><input type="radio" name="JHUACHREDCap" value="LDS" /></td>
+        <td><input type="radio" name="JHUACHREDCap" value="PHIButNoPII" /></td>
+        <td><input type="radio" name="JHUACHREDCap" value="NoPHIPII" /></td>
+        <td><input type="radio" name="JHUACHREDCap" value="Aggregate" /></td>
+        <td><input type="radio" name="JHUACHREDCap" value="NotUsed" /></td>
+    </tr>
+    <tr>
+        <td>2.P.6 <a href="https://researchit.jhu.edu/safe-stor/" target="_blank">SAFESTOR</a></td>
+        <td><input type="radio" name="SAFESTOR" value="TextPHI" /></td>
+        <td><input type="radio" name="SAFESTOR" value="PHIgtLDS" /></td>
+        <td><input type="radio" name="SAFESTOR" value="LDS" /></td>
+        <td><input type="radio" name="SAFESTOR" value="PHIButNoPII" /></td>
+        <td><input type="radio" name="SAFESTOR" value="NoPHIPII" /></td>
+        <td><input type="radio" name="SAFESTOR" value="Aggregate" /></td>
+        <td><input type="radio" name="SAFESTOR" value="NotUsed" /></td>
+    </tr>
+    <tr>
+        <td>2.P.7 <a href="https://researchit.jhu.edu/research-hpc/" target="_blank">Discovery HPC</a></td>
+        <td><input type="radio" name="DiscoveryHPC" value="TextPHI" /></td>
+        <td><input type="radio" name="DiscoveryHPC" value="PHIgtLDS" /></td>
+        <td><input type="radio" name="DiscoveryHPC" value="LDS" /></td>
+        <td><input type="radio" name="DiscoveryHPC" value="PHIButNoPII" /></td>
+        <td><input type="radio" name="DiscoveryHPC" value="NoPHIPII" /></td>
+        <td><input type="radio" name="DiscoveryHPC" value="Aggregate" /></td>
+        <td><input type="radio" name="DiscoveryHPC" value="NotUsed" /></td>
+    </tr>
+    <tr>
+        <td>2.P.8 <a href="https://researchit.jhu.edu/" target="_blank">Enterprise Network Storage (NAS)</a></td>
+        <td><input type="radio" name="EnterpriseNetworkStorageNAS" value="TextPHI" /></td>
+        <td><input type="radio" name="EnterpriseNetworkStorageNAS" value="PHIgtLDS" /></td>
+        <td><input type="radio" name="EnterpriseNetworkStorageNAS" value="LDS" /></td>
+        <td><input type="radio" name="EnterpriseNetworkStorageNAS" value="PHIButNoPII" /></td>
+        <td><input type="radio" name="EnterpriseNetworkStorageNAS" value="NoPHIPII" /></td>
+        <td><input type="radio" name="EnterpriseNetworkStorageNAS" value="Aggregate" /></td>
+        <td><input type="radio" name="EnterpriseNetworkStorageNAS" value="NotUsed" /></td>
+    </tr>
+    <tr>
+        <td>2.P.9 IT@JH RIT-managed Azure or AWS subscription</td>
+        <td><input type="radio" name="ITJHRITManagedAzureAWS" value="TextPHI" /></td>
+        <td><input type="radio" name="ITJHRITManagedAzureAWS" value="PHIgtLDS" /></td>
+        <td><input type="radio" name="ITJHRITManagedAzureAWS" value="LDS" /></td>
+        <td><input type="radio" name="ITJHRITManagedAzureAWS" value="PHIButNoPII" /></td>
+        <td><input type="radio" name="ITJHRITManagedAzureAWS" value="NoPHIPII" /></td>
+        <td><input type="radio" name="ITJHRITManagedAzureAWS" value="Aggregate" /></td>
+        <td><input type="radio" name="ITJHRITManagedAzureAWS" value="NotUsed" /></td>
+    </tr>
                         
                         <!-- (J) Justifiable Data Storage Options Section -->
                         <tr>
@@ -313,27 +313,27 @@
                                 </a>
                             </td>
                         </tr>
-                        <tr>
-                            <td>2.J.1 JH OneDrive / SharePoint / Teams</td>
-                            <td><input type="radio" name="OneDrive_TextPHI" /></td>
-                            <td><input type="radio" name="OneDrive_PHIgtLDS" /></td>
-                            <td><input type="radio" name="OneDrive_LDS" /></td>
-                            <td><input type="radio" name="OneDrive_PHIButNoPII" /></td>
-                            <td><input type="radio" name="OneDrive_NoPHIPII" /></td>
-                            <td><input type="radio" name="OneDrive_Aggregate" /></td>
-                            <td><input type="radio" name="OneDrive_NotUsed" /></td>
-                        </tr>
+    <tr>
+        <td>2.J.1 JH OneDrive / SharePoint / Teams</td>
+        <td><input type="radio" name="OneDrive" value="TextPHI" /></td>
+        <td><input type="radio" name="OneDrive" value="PHIgtLDS" /></td>
+        <td><input type="radio" name="OneDrive" value="LDS" /></td>
+        <td><input type="radio" name="OneDrive" value="PHIButNoPII" /></td>
+        <td><input type="radio" name="OneDrive" value="NoPHIPII" /></td>
+        <td><input type="radio" name="OneDrive" value="Aggregate" /></td>
+        <td><input type="radio" name="OneDrive" value="NotUsed" /></td>
+    </tr>
                         <tr>
                             <td title="For computers NOT managed by IT@JH, see Section R (below)">
         2.J.2 Local Computer <span style="text-decoration: underline; cursor: pointer; color: blue; font-weight: bold;">(both JH owned and IT@JH managed)</span>
                             </td>
-                            <td><input type="radio" name="LocalComputer_TextPHI" /></td>
-                            <td><input type="radio" name="LocalComputer_PHIgtLDS" /></td>
-                            <td><input type="radio" name="LocalComputer_LDS" /></td>
-                            <td><input type="radio" name="LocalComputer_PHIButNoPII" /></td>
-                            <td><input type="radio" name="LocalComputer_NoPHIPII" /></td>
-                            <td><input type="radio" name="LocalComputer_Aggregate" /></td>
-                            <td><input type="radio" name="LocalComputer_NotUsed" /></td>
+                             <td><input type="radio" name="LocalComputer" value="TextPHI" /></td>
+                                <td><input type="radio" name="LocalComputer" value="PHIgtLDS" /></td>
+                                <td><input type="radio" name="LocalComputer" value="LDS" /></td>
+                                <td><input type="radio" name="LocalComputer" value="PHIButNoPII" /></td>
+                                <td><input type="radio" name="LocalComputer" value="NoPHIPII" /></td>
+                                <td><input type="radio" name="LocalComputer" value="Aggregate" /></td>
+                                <td><input type="radio" name="LocalComputer" value="NotUsed" /></td>
                         </tr>
                         
                         <!-- (E) External Data Storage Tools Section -->
@@ -347,23 +347,23 @@
                         </tr>
                         <tr>
                             <td>2.E.1 Non-JHU REDCap</td>
-                            <td><input type="radio" name="NonJHU_REDCap_TextPHI" /></td>
-                            <td><input type="radio" name="NonJHU_REDCap_PHIgtLDS" /></td>
-                            <td><input type="radio" name="NonJHU_REDCap_LDS" /></td>
-                            <td><input type="radio" name="NonJHU_REDCap_PHIButNoPII" /></td>
-                            <td><input type="radio" name="NonJHU_REDCap_NoPHIPII" /></td>
-                            <td><input type="radio" name="NonJHU_REDCap_Aggregate" /></td>
-                            <td><input type="radio" name="NonJHU_REDCap_NotUsed" /></td>
+                            <td><input type="radio" name="NonJHU_REDCap" value="TextPHI" /></td>
+                            <td><input type="radio" name="NonJHU_REDCap" value="PHIgtLDS" /></td>
+                            <td><input type="radio" name="NonJHU_REDCap" value="LDS" /></td>
+                            <td><input type="radio" name="NonJHU_REDCap" value="PHIButNoPII" /></td>
+                            <td><input type="radio" name="NonJHU_REDCap" value="NoPHIPII" /></td>
+                            <td><input type="radio" name="NonJHU_REDCap" value="Aggregate" /></td>
+                            <td><input type="radio" name="NonJHU_REDCap" value="NotUsed" /></td>
                         </tr>
                         <tr>
                             <td>2.E.2 Non-JHU System (e.g., Velos, Medidata RAVE, etc.)</td>
-                            <td><input type="radio" name="NonJHUSystem_TextPHI" /></td>
-                            <td><input type="radio" name="NonJHUSystem_PHIgtLDS" /></td>
-                            <td><input type="radio" name="NonJHUSystem_LDS" /></td>
-                            <td><input type="radio" name="NonJHUSystem_PHIButNoPII" /></td>
-                            <td><input type="radio" name="NonJHUSystem_NoPHIPII" /></td>
-                            <td><input type="radio" name="NonJHUSystem_Aggregate" /></td>
-                            <td><input type="radio" name="NonJHUSystem_NotUsed" /></td>
+                            <td><input type="radio" name="NonJHUSystem" value="TextPHI" /></td>
+                            <td><input type="radio" name="NonJHUSystem" value="PHIgtLDS" /></td>
+                            <td><input type="radio" name="NonJHUSystem" value="LDS" /></td>
+                            <td><input type="radio" name="NonJHUSystem" value="PHIButNoPII" /></td>
+                            <td><input type="radio" name="NonJHUSystem" value="NoPHIPII" /></td>
+                            <td><input type="radio" name="NonJHUSystem" value="Aggregate" /></td>
+                            <td><input type="radio" name="NonJHUSystem" value="NotUsed" /></td>
                         </tr>
                     </tbody>
                 </table>
@@ -417,63 +417,63 @@
                     </tr>
                     <tr>
                         <td>2.R.1 Department Server (not managed by IT@JH)</td>
-                        <td><input type="radio" name="DepartmentServer_TextPHI" /></td>
-                        <td><input type="radio" name="DepartmentServer_PHIgtLDS" /></td>
-                        <td><input type="radio" name="DepartmentServer_LDS" /></td>
-                        <td><input type="radio" name="DepartmentServer_PHIButNoPII" /></td>
-                        <td><input type="radio" name="DepartmentServer_NoPHIPII" /></td>
-                        <td><input type="radio" name="DepartmentServer_Aggregate" /></td>
-                        <td><input type="radio" name="DepartmentServer_NotUsed" /></td>
+    <td><input type="radio" name="DepartmentServer" value="TextPHI" /></td>
+    <td><input type="radio" name="DepartmentServer" value="PHIgtLDS" /></td>
+    <td><input type="radio" name="DepartmentServer" value="LDS" /></td>
+    <td><input type="radio" name="DepartmentServer" value="PHIButNoPII" /></td>
+    <td><input type="radio" name="DepartmentServer" value="NoPHIPII" /></td>
+    <td><input type="radio" name="DepartmentServer" value="Aggregate" /></td>
+    <td><input type="radio" name="DepartmentServer" value="NotUsed" /></td>
                     </tr>
                     <tr>
                         <td>2.R.2 Other computer(s) or Device(s) owned and managed by study team members</td>
-                        <td><input type="radio" name="OtherComputers_TextPHI" /></td>
-                        <td><input type="radio" name="OtherComputers_PHIgtLDS" /></td>
-                        <td><input type="radio" name="OtherComputers_LDS" /></td>
-                        <td><input type="radio" name="OtherComputers_PHIButNoPII" /></td>
-                        <td><input type="radio" name="OtherComputers_NoPHIPII" /></td>
-                        <td><input type="radio" name="OtherComputers_Aggregate" /></td>
-                        <td><input type="radio" name="OtherComputers_NotUsed" /></td>
+    <td><input type="radio" name="OtherComputers" value="TextPHI" /></td>
+    <td><input type="radio" name="OtherComputers" value="PHIgtLDS" /></td>
+    <td><input type="radio" name="OtherComputers" value="LDS" /></td>
+    <td><input type="radio" name="OtherComputers" value="PHIButNoPII" /></td>
+    <td><input type="radio" name="OtherComputers" value="NoPHIPII" /></td>
+    <td><input type="radio" name="OtherComputers" value="Aggregate" /></td>
+    <td><input type="radio" name="OtherComputers" value="NotUsed" /></td>
                     </tr>
                     <tr>
-                        <td>2.R.3 USB/Portable Data Storage Device</td>
-                        <td><input type="radio" name="USB_TextPHI" /></td>
-                        <td><input type="radio" name="USB_PHIgtLDS" /></td>
-                        <td><input type="radio" name="USB_LDS" /></td>
-                        <td><input type="radio" name="USB_PHIButNoPII" /></td>
-                        <td><input type="radio" name="USB_NoPHIPII" /></td>
-                        <td><input type="radio" name="USB_Aggregate" /></td>
-                        <td><input type="radio" name="USB_NotUsed" /></td>
+                         <td>2.R.3 USB/Portable Data Storage Device</td>
+    <td><input type="radio" name="USB" value="TextPHI" /></td>
+    <td><input type="radio" name="USB" value="PHIgtLDS" /></td>
+    <td><input type="radio" name="USB" value="LDS" /></td>
+    <td><input type="radio" name="USB" value="PHIButNoPII" /></td>
+    <td><input type="radio" name="USB" value="NoPHIPII" /></td>
+    <td><input type="radio" name="USB" value="Aggregate" /></td>
+    <td><input type="radio" name="USB" value="NotUsed" /></td>
                     </tr>
                     <tr>
                         <td>2.R.4 <a href="https://jhpce.jhu.edu/" target="_blank">Joint High Performance Computing Exchange (JHPCE)</a></td>
-                        <td><input type="radio" name="JHPCE_TextPHI" /></td>
-                        <td><input type="radio" name="JHPCE_PHIgtLDS" /></td>
-                        <td><input type="radio" name="JHPCE_LDS" /></td>
-                        <td><input type="radio" name="JHPCE_PHIButNoPII" /></td>
-                        <td><input type="radio" name="JHPCE_NoPHIPII" /></td>
-                        <td><input type="radio" name="JHPCE_Aggregate" /></td>
-                        <td><input type="radio" name="JHPCE_NotUsed" /></td>
+                        <td><input type="radio" name="JHPCE" value="TextPHI" /></td>
+    <td><input type="radio" name="JHPCE" value="PHIgtLDS" /></td>
+    <td><input type="radio" name="JHPCE" value="LDS" /></td>
+    <td><input type="radio" name="JHPCE" value="PHIButNoPII" /></td>
+    <td><input type="radio" name="JHPCE" value="NoPHIPII" /></td>
+    <td><input type="radio" name="JHPCE" value="Aggregate" /></td>
+    <td><input type="radio" name="JHPCE" value="NotUsed" /></td>
                     </tr>
                     <tr>
                         <td>2.R.5 <a href="https://www.arch.jhu.edu/" target="_blank">JHU ARCH (formerly MARCC)</a></td>
-                        <td><input type="radio" name="JHUARCH_TextPHI" /></td>
-                        <td><input type="radio" name="JHUARCH_PHIgtLDS" /></td>
-                        <td><input type="radio" name="JHUARCH_LDS" /></td>
-                        <td><input type="radio" name="JHUARCH_PHIButNoPII" /></td>
-                        <td><input type="radio" name="JHUARCH_NoPHIPII" /></td>
-                        <td><input type="radio" name="JHUARCH_Aggregate" /></td>
-                        <td><input type="radio" name="JHUARCH_NotUsed" /></td>
+                        <td><input type="radio" name="JHUARCH" value="TextPHI" /></td>
+    <td><input type="radio" name="JHUARCH" value="PHIgtLDS" /></td>
+    <td><input type="radio" name="JHUARCH" value="LDS" /></td>
+    <td><input type="radio" name="JHUARCH" value="PHIButNoPII" /></td>
+    <td><input type="radio" name="JHUARCH" value="NoPHIPII" /></td>
+    <td><input type="radio" name="JHUARCH" value="Aggregate" /></td>
+    <td><input type="radio" name="JHUARCH" value="NotUsed" /></td>
                     </tr>
                     <tr>
                         <td>2.R.6 Other solution not managed by IT@JH, such as cloud storage (Box, Dropbox, etc.)</td>
-                        <td><input type="radio" name="OtherSolutions_TextPHI" /></td>
-                        <td><input type="radio" name="OtherSolutions_PHIgtLDS" /></td>
-                        <td><input type="radio" name="OtherSolutions_LDS" /></td>
-                        <td><input type="radio" name="OtherSolutions_PHIButNoPII" /></td>
-                        <td><input type="radio" name="OtherSolutions_NoPHIPII" /></td>
-                        <td><input type="radio" name="OtherSolutions_Aggregate" /></td>
-                        <td><input type="radio" name="OtherSolutions_NotUsed" /></td>
+                        <td><input type="radio" name="OtherSolutions" value="TextPHI" /></td>
+    <td><input type="radio" name="OtherSolutions" value="PHIgtLDS" /></td>
+    <td><input type="radio" name="OtherSolutions" value="LDS" /></td>
+    <td><input type="radio" name="OtherSolutions" value="PHIButNoPII" /></td>
+    <td><input type="radio" name="OtherSolutions" value="NoPHIPII" /></td>
+    <td><input type="radio" name="OtherSolutions" value="Aggregate" /></td>
+    <td><input type="radio" name="OtherSolutions" value="NotUsed" /></td>
                     </tr>
                 </tbody>
             </table>
