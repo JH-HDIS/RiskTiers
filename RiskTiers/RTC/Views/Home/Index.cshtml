@@ -52,6 +52,18 @@
     width: auto; /* Ensures the label takes up only as much width as it needs */
     white-space: normal; /* Allows wrapping of the text if needed */
 }
+   /* Sticky note styles */
+        #risk-level-note {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background-color: yellow;
+            text-align: center;
+            padding: 10px;
+            font-size: 20px; /* Adjust the font size here */
+            font-weight: bold; /* Make it bold for more visibility */
+            z-index: 1000; /* Ensure it stays on top */
+        }
     </style>
 </head>
 <body>
@@ -478,6 +490,7 @@
                 </tbody>
             </table>
         </div>
+         <div id="risk-level-note" class="sticky-note">Need to answer more questions to determine risk level.</div>
 
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
@@ -529,6 +542,48 @@
         checkSectionE();
     });
 </script>
+ <script>
+        function updateRiskLevel() {
+            const riskNote = document.getElementById('risk-level-note');
+            let riskLevel = 'Need to answer more questions to determine risk level.'; // Default message
+
+            // You can insert logic here to calculate the risk based on user inputs
+            // Example: if all fields are filled or based on specific conditions, change the message
+            let calculatedRiskLevel = calculateRiskLevel(); // Placeholder for your risk level calculation function
+
+            if (calculatedRiskLevel === 'Preferred') {
+                riskLevel = 'Your risk level is: Preferred';
+            } else if (calculatedRiskLevel === 'Justifiable') {
+                riskLevel = 'Your risk level is: Justifiable';
+            } else if (calculatedRiskLevel === 'External Tools') {
+                riskLevel = 'Your risk level is: External Tools';
+            } else if (calculatedRiskLevel === 'Requires Review') {
+                riskLevel = 'Your risk level is: Requires Review';
+            }
+
+            // Update the content of the sticky note
+            riskNote.innerHTML = riskLevel;
+        }
+
+        // Placeholder function to determine risk level
+        function calculateRiskLevel() {
+            // Insert logic here to determine risk level based on user input
+            // For now, return "Preferred" as an example
+            return 'Preferred'; 
+        }
+
+        // Example event listener to trigger risk level calculation when an input changes
+        document.querySelectorAll('input').forEach(input => {
+            input.addEventListener('change', updateRiskLevel);
+        });
+
+        // Ensure sticky note stays at the bottom of the screen when scrolling
+        window.addEventListener('scroll', function () {
+            const riskNote = document.getElementById('risk-level-note');
+            riskNote.style.position = 'fixed';
+            riskNote.style.bottom = '0';
+        });
+    </script>
 
 
 <!-- Load jQuery first -->
