@@ -1,9 +1,9 @@
-using System;
-
-namespace RTC.Controllers
+namespace RTC.Models
 {
     public class DataClassification
     {
+        public string? Option { get; set; } // Nullable string
+        public string? Description { get; set; } // Nullable string
         public bool DataLeavingJHM { get; set; }
         public bool PHILDS { get; set; }
         public bool PHI { get; set; }
@@ -32,7 +32,8 @@ namespace RTC.Controllers
         public bool NonJHUREDCap { get; set; }
         public bool NonJHUSystem { get; set; }
 
-        public string? ToolCategory { get; set; }
-        public string? ResourceCategory { get; set; }
+        // Categories
+        public string? ToolCategory { get; set; } // Nullable string
+        public string? ResourceCategory { get; set; } // Nullable string
     }
 }

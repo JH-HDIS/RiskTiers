@@ -1,28 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "c:\\Users\\bsharm12\\GitFolderRTC\\RiskTiers\\RiskTiers\\RTC\\RTC.csproj": {}
+    "c:\\Users\\bsharm12\\Documents\\GitHub\\RiskTiers\\RiskTiers\\RTC\\RTC.csproj": {}
   },
   "projects": {
-    "c:\\Users\\bsharm12\\GitFolderRTC\\RiskTiers\\RiskTiers\\RTC\\RTC.csproj": {
+    "c:\\Users\\bsharm12\\Documents\\GitHub\\RiskTiers\\RiskTiers\\RTC\\RTC.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Users\\bsharm12\\GitFolderRTC\\RiskTiers\\RiskTiers\\RTC\\RTC.csproj",
+        "projectUniqueName": "c:\\Users\\bsharm12\\Documents\\GitHub\\RiskTiers\\RiskTiers\\RTC\\RTC.csproj",
         "projectName": "RTC",
-        "projectPath": "c:\\Users\\bsharm12\\GitFolderRTC\\RiskTiers\\RiskTiers\\RTC\\RTC.csproj",
+        "projectPath": "c:\\Users\\bsharm12\\Documents\\GitHub\\RiskTiers\\RiskTiers\\RTC\\RTC.csproj",
         "packagesPath": "C:\\Users\\bsharm12\\.nuget\\packages\\",
-        "outputPath": "c:\\Users\\bsharm12\\GitFolderRTC\\RiskTiers\\RiskTiers\\RTC\\obj\\",
+        "outputPath": "c:\\Users\\bsharm12\\Documents\\GitHub\\RiskTiers\\RiskTiers\\RTC\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\bsharm12\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\bsharm12\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -46,6 +43,10 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "Microsoft.Data.SqlClient": {
+              "target": "Package",
+              "version": "[5.2.2, )"
+            },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
               "version": "[8.0.7, )"
@@ -84,7 +85,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.303/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

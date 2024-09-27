@@ -1,7 +1,8 @@
 using System;
 using System.Collections.Generic;
 using RTC.Controllers; // Ensure this namespace is correct
-using RTC.Logic; // Ensure this namespace is correct
+using RTC.Logic;
+using RTC.Models; // Ensure this namespace is correct
 
 namespace RTC.Logic
 {

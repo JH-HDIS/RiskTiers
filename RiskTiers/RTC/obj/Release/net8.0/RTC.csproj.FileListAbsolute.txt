@@ -1,0 +1,9 @@
+C:\Users\bsharm12\Documents\GitHub\RiskTiers\RiskTiers\RTC\obj\Release\net8.0\RTC.csproj.AssemblyReference.cache
+C:\Users\bsharm12\Documents\GitHub\RiskTiers\RiskTiers\RTC\obj\Release\net8.0\RTC.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\bsharm12\Documents\GitHub\RiskTiers\RiskTiers\RTC\obj\Release\net8.0\RTC.AssemblyInfoInputs.cache
+C:\Users\bsharm12\Documents\GitHub\RiskTiers\RiskTiers\RTC\obj\Release\net8.0\RTC.AssemblyInfo.cs
+C:\Users\bsharm12\Documents\GitHub\RiskTiers\RiskTiers\RTC\obj\Release\net8.0\RTC.csproj.CoreCompileInputs.cache
+C:\Users\bsharm12\Documents\GitHub\RiskTiers\RiskTiers\RTC\obj\Release\net8.0\RTC.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\bsharm12\Documents\GitHub\RiskTiers\RiskTiers\RTC\obj\Release\net8.0\RTC.RazorAssemblyInfo.cache
+C:\Users\bsharm12\Documents\GitHub\RiskTiers\RiskTiers\RTC\obj\Release\net8.0\RTC.RazorAssemblyInfo.cs
+C:\Users\bsharm12\Documents\GitHub\RiskTiers\RiskTiers\RTC\obj\Release\net8.0\RTC.sourcelink.json

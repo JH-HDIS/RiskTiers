@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using RTC.Models;
 
 namespace RTC.Models
 {

@@ -1,164 +1,100 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
-using RTC.Models;
-using Microsoft.Extensions.Logging;
-using System.Diagnostics;
+using RTC.Models; // Ensure this references your model
 
 namespace RTC.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
-        {
-            _logger = logger;
-        }
-
         public IActionResult Index()
         {
-            // Create a list of DataClassification objects
-            var dataClassifications = new List<DataClassification>
-            {
-                // P - Preferred Data Storage Options
-                new DataClassification 
-                { 
-                    DataLeavingJHM = true, 
-                    PHILDS = false, 
-                    PHI = true, 
-                    PII = false, 
-                    LDS = false, 
-                    PersonNoPHI = false, 
-                    Counts = false, 
-                    SAFERorSAFEDesktop = true, 
-                    JHPMAP = false, 
-                    JHUPhoenix = false, 
-                    JHUOpenSpecimen = false, 
-                    JHUQualtrics = false, 
-                    JHUACHREDCap = false, 
-                    SAFESTOR = false, 
-                    DiscoveryHPC = false, 
-                    EnterpriseNetworkStorageNAS = false, 
-                    ITJHRITManagedAzureAWS = false, 
-                    ToolCategory = "P", 
-                    ResourceCategory = "Preferred" 
-                },
-
-                // J - Justifiable Data Storage Options
-                new DataClassification 
-                { 
-                    DataLeavingJHM = false, 
-                    PHILDS = true, 
-                    PHI = false, 
-                    PII = true, 
-                    LDS = true, 
-                    PersonNoPHI = true, 
-                    Counts = true, 
-                    SAFERorSAFEDesktop = false, 
-                    JHPMAP = true, 
-                    JHUPhoenix = false, 
-                    JHUOpenSpecimen = false, 
-                    JHUQualtrics = true, 
-                    JHUACHREDCap = false, 
-                    SAFESTOR = true, 
-                    DiscoveryHPC = false, 
-                    EnterpriseNetworkStorageNAS = true, 
-                    ITJHRITManagedAzureAWS = false, 
-                    ToolCategory = "J", 
-                    ResourceCategory = "Justifiable" 
-                },
-
-                // R - Data Storage Options Requiring Review
-                new DataClassification 
-                { 
-                    DataLeavingJHM = true, 
-                    PHILDS = false, 
-                    PHI = true, 
-                    PII = false, 
-                    LDS = false, 
-                    PersonNoPHI = false, 
-                    Counts = false, 
-                    SAFERorSAFEDesktop = false, 
-                    JHPMAP = false, 
-                    JHUPhoenix = false, 
-                    JHUOpenSpecimen = false, 
-                    JHUQualtrics = false, 
-                    JHUACHREDCap = false, 
-                    SAFESTOR = false, 
-                    DiscoveryHPC = true, 
-                    EnterpriseNetworkStorageNAS = false, 
-                    ITJHRITManagedAzureAWS = true, 
-                    ToolCategory = "R", 
-                    ResourceCategory = "ReqReview" 
-                },
-
-                // E - External Data Storage Tools
-                new DataClassification 
-                { 
-                    DataLeavingJHM = false, 
-                    PHILDS = true, 
-                    PHI = true, 
-                    PII = true, 
-                    LDS = false, 
-                    PersonNoPHI = true, 
-                    Counts = true, 
-                    SAFERorSAFEDesktop = false, 
-                    JHPMAP = false, 
-                    JHUPhoenix = true, 
-                    JHUOpenSpecimen = false, 
-                    JHUQualtrics = true, 
-                    JHUACHREDCap = false, 
-                    SAFESTOR = false, 
-                    DiscoveryHPC = false, 
-                    EnterpriseNetworkStorageNAS = false, 
-                    ITJHRITManagedAzureAWS = false, 
-                    ToolCategory = "E", 
-                    ResourceCategory = "External" 
-                }
-            };
-
-            // Assign the list of DataClassification objects to the DataClassifications property of the UserResponse object
+            // Return a new UserResponse model for the initial form
             var model = new UserResponse
             {
-                RTCCompletionDate = DateTime.Now,  // Optionally set the default date
-                DataClassifications = dataClassifications // Initialize with pre-defined DataClassifications
+                RTCCompletionDate = DateTime.Now, // Set default value for completion date
+                DataClassifications = InitializeDataClassifications() // Initialize with pre-defined DataClassifications
             };
-
-            return View(model); // Pass the model to the view
-        }
-
-        [HttpPost]
-        public IActionResult Index(UserResponse model)
-        {
-            if (ModelState.IsValid)
-            {
-                // Process the model here, e.g., save it to the database
-                // Example: _context.UserResponses.Add(model);
-                //          _context.SaveChanges();
-
-                // Redirect to a confirmation page or show a success message
-                return RedirectToAction("Success");
-            }
-
-            // If the model is not valid, return the same view with the model to display validation errors
             return View(model);
         }
 
-        public IActionResult Success()
+        [HttpPost]
+        public IActionResult Index(UserResponse model, string SAFERorSAFEDesktop, string JHPMAP, string JHUOpenSpecimen, string JHUQualtrics, 
+                                   string JHUACHREDCap, string SAFESTOR, string DiscoveryHPC, string EnterpriseNetworkStorageNAS, 
+                                   string ITJHRITManagedAzureAWS, string OneDrive, string LocalComputer, string NonJHU_REDCap, 
+                                   string NonJHUSystem, string DepartmentServer, string OtherComputers, string USB, string JHPCE, 
+                                   string JHUARCH, string OtherSolutions)
         {
-            return View(); // Display a success page
+            // Calculate risk levels based on submitted data
+            string riskLevel = CalculateRiskLevel(SAFERorSAFEDesktop, JHPMAP, JHUOpenSpecimen, JHUQualtrics, JHUACHREDCap, SAFESTOR,
+                                                  DiscoveryHPC, EnterpriseNetworkStorageNAS, ITJHRITManagedAzureAWS, OneDrive, 
+                                                  LocalComputer, NonJHU_REDCap, NonJHUSystem, DepartmentServer, OtherComputers, 
+                                                  USB, JHPCE, JHUARCH, OtherSolutions);
+
+            // Pass the risk level back to the view using ViewBag
+            ViewBag.RiskLevel = riskLevel;
+
+            // Ensure that the model contains all the necessary data for the entire table
+            model.DataClassifications = InitializeDataClassifications();
+
+            // Return the model back to the view to maintain state
+            return View(model);
         }
 
-        public IActionResult Privacy()
+        private string CalculateRiskLevel(string SAFERorSAFEDesktop, string JHPMAP, string JHUOpenSpecimen, string JHUQualtrics,
+                                          string JHUACHREDCap, string SAFESTOR, string DiscoveryHPC, string EnterpriseNetworkStorageNAS, 
+                                          string ITJHRITManagedAzureAWS, string OneDrive, string LocalComputer, string NonJHU_REDCap, 
+                                          string NonJHUSystem, string DepartmentServer, string OtherComputers, string USB, string JHPCE, 
+                                          string JHUARCH, string OtherSolutions)
         {
-            return View();
+            // Placeholder logic to calculate the risk level based on the selected values
+            if (new[] { SAFERorSAFEDesktop, JHPMAP, JHUOpenSpecimen, JHUQualtrics, JHUACHREDCap }.Contains("TextPHI"))
+            {
+                return "Preferred";
+            }
+            else if (new[] { ITJHRITManagedAzureAWS, DiscoveryHPC, JHPCE }.Contains("PHIgtLDS"))
+            {
+                return "Justifiable";
+            }
+            else if (new[] { DepartmentServer, OtherComputers, USB, JHUARCH }.Contains("LDS"))
+            {
+                return "ReqReview";
+            }
+            else if (new[] { NonJHU_REDCap, NonJHUSystem, OtherSolutions }.Contains("NotUsed"))
+            {
+                return "External";
+            }
+            else
+            {
+                return "Need more information";
+            }
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        // Initialize DataClassifications for the entire form
+        private List<DataClassification> InitializeDataClassifications()
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            return new List<DataClassification>
+            {
+                new DataClassification { Option = "2.P.1", Description = "SAFER or SAFE Desktop" },
+                new DataClassification { Option = "2.P.2", Description = "JH PMAP" },
+                new DataClassification { Option = "2.P.3", Description = "JHU OpenSpecimen" },
+                new DataClassification { Option = "2.P.4", Description = "JHU Qualtrics" },
+                new DataClassification { Option = "2.P.5", Description = "JHU/ACH REDCap" },
+                new DataClassification { Option = "2.P.6", Description = "SAFESTOR" },
+                new DataClassification { Option = "2.P.7", Description = "Discovery HPC" },
+                new DataClassification { Option = "2.P.8", Description = "Enterprise Network Storage (NAS)" },
+                new DataClassification { Option = "2.P.9", Description = "IT@JH RIT-managed Azure or AWS subscription" },
+                new DataClassification { Option = "2.J.1", Description = "JH OneDrive / SharePoint / Teams" },
+                new DataClassification { Option = "2.J.2", Description = "Local Computer (both JH owned and IT@JH managed)" },
+                new DataClassification { Option = "2.E.1", Description = "Non-JHU REDCap" },
+                new DataClassification { Option = "2.E.2", Description = "Non-JHU System (e.g., Velos, Medidata RAVE, etc.)" },
+                new DataClassification { Option = "2.R.1", Description = "Department Server (not managed by IT@JH)" },
+                new DataClassification { Option = "2.R.2", Description = "Other computer(s) or Device(s) owned and managed by study team members" },
+                new DataClassification { Option = "2.R.3", Description = "USB/Portable Data Storage Device" },
+                new DataClassification { Option = "2.R.4", Description = "Joint High Performance Computing Exchange (JHPCE)" },
+                new DataClassification { Option = "2.R.5", Description = "JHU ARCH (formerly MARCC)" },
+                new DataClassification { Option = "2.R.6", Description = "Other solution not managed by IT@JH, such as cloud storage (Box, Dropbox, etc.)" }
+            };
         }
     }
 }
