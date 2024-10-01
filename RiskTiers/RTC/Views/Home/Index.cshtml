@@ -15,56 +15,64 @@
 
     <!-- Additional custom styles specific to this page -->
     <style>
-        .form-section {
-            margin-bottom: 20px;
-        }
-        
-        .form-section label {
-            font-weight: bold;
-        }
-        
-        .section-title {
-            margin-top: 30px;
-            margin-bottom: 15px;
-            font-weight: bold;
-            font-size: 1.2em;
-            text-decoration: underline;
-        }
-        
-        .form-check-label {
-            margin-left: 10px;
-        }
-        
-        /* Added styles for wider form */
-        .form-container {
-            max-width: 90%; /* Set the form to take up 90% of the screen width */
-            margin: 0 auto; /* Center the form on the page */
-        }
-        
-        /* Ensure input fields take full width of their container */
-        .form-container input,
-        .form-container select,
-        .form-container textarea {
-            width: 100%;
-            box-sizing: border-box; /* Include padding and border in the element's width */
-        .form-check-label {
-    display: inline-block;
-    width: auto; /* Ensures the label takes up only as much width as it needs */
-    white-space: normal; /* Allows wrapping of the text if needed */
-}
-   /* Sticky note styles */
-        #risk-level-note {
-            position: absolute;
-            bottom: 0;
-            width: 100%;
-            background-color: yellow;
-            text-align: center;
-            padding: 10px;
-            font-size: 20px; /* Adjust the font size here */
-            font-weight: bold; /* Make it bold for more visibility */
-            z-index: 1000; /* Ensure it stays on top */
-        }
-    </style>
+    .form-section {
+        margin-bottom: 20px;
+    }
+
+    .form-section label {
+        font-weight: bold;
+    }
+
+    .section-title {
+        margin-top: 30px;
+        margin-bottom: 15px;
+        font-weight: bold;
+        font-size: 1.2em;
+        text-decoration: underline;
+    }
+
+    .form-check-label {
+        margin-left: 10px;
+    }
+
+    /* Added styles for wider form */
+    .form-container {
+        max-width: 90%; /* Set the form to take up 90% of the screen width */
+        margin: 0 auto; /* Center the form on the page */
+    }
+
+    /* Ensure input fields take full width of their container */
+    .form-container input,
+    .form-container select,
+    .form-container textarea {
+        width: 100%;
+        box-sizing: border-box; /* Include padding and border in the element's width */
+    }
+
+    .form-check-label {
+        display: inline-block;
+        width: auto; /* Ensures the label takes up only as much width as it needs */
+        white-space: normal; /* Allows wrapping of the text if needed */
+    }
+
+    /* Sticky note styles */
+    #risk-level-note {
+        position: fixed;
+        bottom: 0;
+        left: 0; /* Aligns the sticky note to the left */
+        width: 250px; /* Set a fixed width for the sticky note */
+        background-color: #5a9ee2; /* Dark blue background */
+        text-align: left;
+        padding: 10px;
+        font-size: 20px;
+        font-weight: bold; /* Make text bold */
+        color: red; /* Change the text color to red */
+        z-index: 1000;
+        border-radius: 5px; /* Optional: Add rounded corners */
+        box-shadow: 0px 4px 6px rgba(25, 5, 110, 0.1); /* Optional: Adds a subtle shadow */
+    }
+</style>
+
 </head>
 <body>
     <div class="container">
@@ -490,9 +498,12 @@
                 </tbody>
             </table>
         </div>
-         <div id="risk-level-note" class="sticky-note">Need to answer more questions to determine risk level.</div>
+         
 
         <button type="submit" class="btn btn-primary">Submit</button>
+
+        <div class="container"><div id="risk-level-note" class="sticky-note">Need to answer more questions to determine risk level.</div>
+        </div>
     </form>
 </div>
 
