@@ -59,16 +59,16 @@
     #risk-level-note {
         position: fixed;
         bottom: 0;
-        left: 0; /* Aligns the sticky note to the left */
-        width: 250px; /* Set a fixed width for the sticky note */
+        left: 0;
+        width: 100%; /* Full width across the page */
         background-color: #5a9ee2; /* Dark blue background */
-        text-align: left;
+        text-align: center; /* Center the text */
         padding: 10px;
         font-size: 20px;
         font-weight: bold; /* Make text bold */
         color: red; /* Change the text color to red */
         z-index: 1000;
-        border-radius: 5px; /* Optional: Add rounded corners */
+        white-space: nowrap; /* Prevents the text from wrapping onto a new line */
         box-shadow: 0px 4px 6px rgba(25, 5, 110, 0.1); /* Optional: Adds a subtle shadow */
     }
 </style>

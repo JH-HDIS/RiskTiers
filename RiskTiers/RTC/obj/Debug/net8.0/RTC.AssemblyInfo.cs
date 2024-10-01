@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("RTC")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a4dcff5defbd4fcf14fb803d3c9a662f703a8aff")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+48c5fdbd74e2f68d1ef9b5fe9030fccc6dc25c13")]
 [assembly: System.Reflection.AssemblyProductAttribute("RTC")]
 [assembly: System.Reflection.AssemblyTitleAttribute("RTC")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
