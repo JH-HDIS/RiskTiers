@@ -499,14 +499,68 @@
             </table>
         </div>
          
-
+<!-- Modal for Email Input -->
+<div class="modal fade" id="emailModal" tabindex="-1" role="dialog" aria-labelledby="emailModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="emailModalLabel">Do you want a copy of the PDF?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <label for="userEmail">Enter your email address:</label>
+        <input type="email" id="userEmail" class="form-control" placeholder="name@example.com">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" id="skipBtn">Skip</button>
+        <button type="button" class="btn btn-primary" id="sendEmailBtn">Yes, I'd like a copy</button>
+      </div>
+    </div>
+  </div>
+</div>
     <button type="button" class="btn btn-primary" id="generatePdfButton">Generate PDF</button>
-
+        
         <div class="container"><div id="risk-level-note" class="sticky-note">Need to answer more questions to determine risk level.</div>
         </div>
+        
     </form>
 </div>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Get references to buttons and modal
+        const generatePdfButton = document.getElementById('generatePdfButton');
+        const sendEmailBtn = document.getElementById('sendEmailBtn');
+        const skipBtn = document.getElementById('skipBtn');
+        const userEmailInput = document.getElementById('userEmail');
 
+        // When Generate PDF button is clicked, show the email modal
+        generatePdfButton.addEventListener('click', function() {
+            $('#emailModal').modal('show'); // Show the email modal
+        });
+
+        // Handle the case where the user skips the email
+        skipBtn.addEventListener('click', function() {
+            window.open('path_to_your_generated_pdf.pdf', '_blank'); // Open the PDF in a new window
+        });
+
+        // Handle the case where the user wants the PDF via email
+        sendEmailBtn.addEventListener('click', function() {
+            const email = userEmailInput.value;
+            if (email) {
+                // Here, you'd send the email using backend logic
+                console.log('Send PDF to email:', email);
+
+                // For now, we'll just simulate success
+                alert('A copy of the PDF will be sent to ' + email);
+                $('#emailModal').modal('hide'); // Hide the modal
+            } else {
+                alert('Please enter a valid email address.');
+            }
+        });
+    });
+</script>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         const radioButtons = document.querySelectorAll('input[type="radio"]');
@@ -599,7 +653,9 @@
 
 <!-- Load jQuery first -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+
 <!-- Load Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <!-- Load your custom JavaScript last -->
 <script src="~/js/logic.js"></script>
