@@ -527,6 +527,131 @@
         
     </form>
 </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // References to Data Table radio buttons
+        const dataTableRadioButtons = document.querySelectorAll('input[type="radio"][data-option]');
+
+        // Section 1 inputs (1A-1D) references using their id's or asp-for
+        const section1A = document.querySelectorAll('input[name="InvolvesSensitiveHealthInfo"]');
+        const section1B = document.querySelectorAll('input[name="NumberOfPeopleOrRecords"]');
+        const section1C = document.querySelectorAll('input[name="HumanDataSharingLevel"]');
+        const section1D = document.querySelectorAll('input[name="AllActivitiesCoveredByConsent"]');
+
+        // ORA/JHURA conditional question references
+        const oraJhuraYes = document.getElementById('DataSharingYes');
+        const oraJhuraNo = document.getElementById('DataSharingNo');
+
+        // Array to hold all selected options
+        let selectedOptions = [];
+
+        // Function to collect Section 1 answers
+        function collectSection1Answers() {
+            let section1Answers = [];
+
+            // Get the selected answer for 1A
+            section1A.forEach(radio => {
+                if (radio.checked) {
+                    section1Answers.push({ question: '1A', value: radio.value });
+                }
+            });
+
+            // Get the selected answer for 1B
+            section1B.forEach(radio => {
+                if (radio.checked) {
+                    section1Answers.push({ question: '1B', value: radio.value });
+                }
+            });
+
+            // Get the selected answer for 1C
+            section1C.forEach(radio => {
+                if (radio.checked) {
+                    section1Answers.push({ question: '1C', value: radio.value });
+                }
+            });
+
+            // Get the selected answer for 1D
+            section1D.forEach(radio => {
+                if (radio.checked) {
+                    section1Answers.push({ question: '1D', value: radio.value });
+                }
+            });
+
+            return section1Answers;
+        }
+
+        // Function to collect Data Table radio button selections
+        function collectDataTableSelections() {
+            let dataTableAnswers = [];
+
+            dataTableRadioButtons.forEach(radio => {
+                if (radio.checked) {
+                    dataTableAnswers.push({
+                        option: radio.getAttribute('data-option'),
+                        column: radio.getAttribute('data-column'),
+                        value: radio.value
+                    });
+                }
+            });
+
+            return dataTableAnswers;
+        }
+
+        // Function to collect ORA/JHURA agreement answer
+        function collectOraJhuraAnswer() {
+            let oraJhuraAnswer = [];
+
+            if (oraJhuraYes.checked) {
+                oraJhuraAnswer.push({ question: 'ORA_JHURA', value: 'Yes' });
+            } else if (oraJhuraNo.checked) {
+                oraJhuraAnswer.push({ question: 'ORA_JHURA', value: 'No' });
+            }
+
+            return oraJhuraAnswer;
+        }
+
+        // Main function to gather all selections and send to calculation function
+        function updateSelectedOptions() {
+            selectedOptions = []; // Clear the array
+
+            // Collect answers from Section 1
+            let section1Selections = collectSection1Answers();
+            selectedOptions = selectedOptions.concat(section1Selections);
+
+            // Collect answers from Data Table
+            let dataTableSelections = collectDataTableSelections();
+            selectedOptions = selectedOptions.concat(dataTableSelections);
+
+            // Collect answers from ORA/JHURA question
+            let oraJhuraSelections = collectOraJhuraAnswer();
+            selectedOptions = selectedOptions.concat(oraJhuraSelections);
+
+            console.log('Selected Options:', selectedOptions); // For testing in the browser console
+
+            // Send the array to your calculation function (if already implemented)
+            // calculateRiskLevel(selectedOptions); // Uncomment this when the function is implemented
+        }
+
+        // Attach event listeners to Section 1 radio buttons
+        [...section1A, ...section1B, ...section1C, ...section1D].forEach(radio => {
+            radio.addEventListener('change', updateSelectedOptions);
+        });
+
+        // Attach event listeners to all Data Table radio buttons
+        dataTableRadioButtons.forEach(radio => {
+            radio.addEventListener('change', updateSelectedOptions);
+        });
+
+        // Attach event listeners to ORA/JHURA radio buttons
+        oraJhuraYes.addEventListener('change', updateSelectedOptions);
+        oraJhuraNo.addEventListener('change', updateSelectedOptions);
+
+        // Initial check in case there are already selected radios on page load
+        updateSelectedOptions();
+    });
+</script>
+
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         // Get references to buttons and modal
