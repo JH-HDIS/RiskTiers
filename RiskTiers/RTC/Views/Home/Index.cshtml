@@ -543,45 +543,42 @@
         const oraJhuraYes = document.getElementById('DataSharingYes');
         const oraJhuraNo = document.getElementById('DataSharingNo');
 
-        // Array to hold all selected options
-        let selectedOptions = [];
-
-        // Function to collect Section 1 answers
+        // Function to collect Section 1 answers and return as individual parameters
         function collectSection1Answers() {
-            let section1Answers = [];
+            let section1Answers = {};
 
             // Get the selected answer for 1A
             section1A.forEach(radio => {
                 if (radio.checked) {
-                    section1Answers.push({ question: '1A', value: radio.value });
+                    section1Answers.section1A = radio.value;
                 }
             });
 
             // Get the selected answer for 1B
             section1B.forEach(radio => {
                 if (radio.checked) {
-                    section1Answers.push({ question: '1B', value: radio.value });
+                    section1Answers.section1B = radio.value;
                 }
             });
 
             // Get the selected answer for 1C
             section1C.forEach(radio => {
                 if (radio.checked) {
-                    section1Answers.push({ question: '1C', value: radio.value });
+                    section1Answers.section1C = radio.value;
                 }
             });
 
             // Get the selected answer for 1D
             section1D.forEach(radio => {
                 if (radio.checked) {
-                    section1Answers.push({ question: '1D', value: radio.value });
+                    section1Answers.section1D = radio.value;
                 }
             });
 
             return section1Answers;
         }
 
-        // Function to collect Data Table radio button selections
+        // Function to collect Data Table radio button selections and return as an array
         function collectDataTableSelections() {
             let dataTableAnswers = [];
 
@@ -600,37 +597,42 @@
 
         // Function to collect ORA/JHURA agreement answer
         function collectOraJhuraAnswer() {
-            let oraJhuraAnswer = [];
+            let oraJhuraAnswer = null;
 
             if (oraJhuraYes.checked) {
-                oraJhuraAnswer.push({ question: 'ORA_JHURA', value: 'Yes' });
+                oraJhuraAnswer = 'Yes';
             } else if (oraJhuraNo.checked) {
-                oraJhuraAnswer.push({ question: 'ORA_JHURA', value: 'No' });
+                oraJhuraAnswer = 'No';
             }
 
             return oraJhuraAnswer;
         }
 
-        // Main function to gather all selections and send to calculation function
+        // Main function to send parameters and array to the calculation function
         function updateSelectedOptions() {
-            selectedOptions = []; // Clear the array
+            // Collect answers from Section 1 as individual parameters
+            const section1Answers = collectSection1Answers();
 
-            // Collect answers from Section 1
-            let section1Selections = collectSection1Answers();
-            selectedOptions = selectedOptions.concat(section1Selections);
+            // Collect answers from Data Table as an array
+            const dataTableSelections = collectDataTableSelections();
 
-            // Collect answers from Data Table
-            let dataTableSelections = collectDataTableSelections();
-            selectedOptions = selectedOptions.concat(dataTableSelections);
+            // Collect ORA/JHURA agreement as a parameter
+            const oraJhuraAnswer = collectOraJhuraAnswer();
 
-            // Collect answers from ORA/JHURA question
-            let oraJhuraSelections = collectOraJhuraAnswer();
-            selectedOptions = selectedOptions.concat(oraJhuraSelections);
+            // Log the values for testing (you can see them in the browser's console)
+            console.log('Section 1 Answers:', section1Answers);
+            console.log('Data Table Selections:', dataTableSelections);
+            console.log('ORA/JHURA Answer:', oraJhuraAnswer);
 
-            console.log('Selected Options:', selectedOptions); // For testing in the browser console
-
-            // Send the array to your calculation function (if already implemented)
-            // calculateRiskLevel(selectedOptions); // Uncomment this when the function is implemented
+            // Send the data to your calculation function
+            calculateRiskLevel(
+                section1Answers.section1A,
+                section1Answers.section1B,
+                section1Answers.section1C,
+                section1Answers.section1D,
+                oraJhuraAnswer,
+                dataTableSelections
+            );
         }
 
         // Attach event listeners to Section 1 radio buttons
@@ -650,7 +652,22 @@
         // Initial check in case there are already selected radios on page load
         updateSelectedOptions();
     });
+
+    // Example placeholder for the calculation function
+    function calculateRiskLevel(section1A, section1B, section1C, section1D, oraJhuraAnswer, dataTableSelections) {
+        // This is where you'd process the received data for calculation.
+        // Log them for now to verify the correct data is being passed.
+        console.log("Section 1A:", section1A);
+        console.log("Section 1B:", section1B);
+        console.log("Section 1C:", section1C);
+        console.log("Section 1D:", section1D);
+        console.log("ORA/JHURA Answer:", oraJhuraAnswer);
+        console.log("Data Table Selections:", dataTableSelections);
+
+        // Perform your risk level calculations here based on the parameters
+    }
 </script>
+
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {
