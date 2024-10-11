@@ -666,6 +666,88 @@
 
         // Perform your risk level calculations here based on the parameters
     }
+     function updateRiskLevel() {
+            const riskNote = document.getElementById('risk-level-note');
+            let riskLevel = 'Need to answer more questions to determine risk level.'; // Default message
+            
+            try {
+                const responseString = getRiskTier().then(responseString => {
+                 // Use the responseString here
+                     console.log('Received string:', responseString);
+                     calculatedRiskLevel = responseString;  // Assign the response string to the calculated risk level
+                    console.log('riskLevel :', calculatedRiskLevel); 
+                    let riskLevel = "Your risk level is: " + calculatedRiskLevel;
+                     riskNote.innerHTML = riskLevel;  // Update the content of the sticky note
+                    });;  
+                
+            } catch (error) {
+                console.error('Error in getResponse:', error);
+            }
+        
+
+            // Update the content of the sticky note
+           
+        }
+         async function getRiskTier() {
+            
+           
+            //set values for testing only
+            var dataLeavingJHM = "N"; // Is data leaving JHM
+            var numRecords = "9999"; // 499, 9999 or 10000
+            var consentYN = "Y"; // Y or N
+            var humanDataSharingLevel = "1"; // 0=Directly identifiable data; 1=LDS; 3=Person-level data with No PHI or PII; 4=Aggregate (counts ); 5=Data will not be copied, moved, or shared
+            var involvesSensitiveHealthInfo = "N"; // Y or N
+            var dataSharingAgreement = "N"; // Y or N
+            let responseString = '';  // Declare a variable to hold the response string
+            var tierArray = [
+                ["2.P.7", "C2"],
+                ["2.P.2", "C1"],
+                ["2.J.2", "C4"],
+                ["2.R.2", "C1"]
+                ];
+
+           console.log("sensitiveradiobutton",document.querySelectorAll('input[name="InvolvesSensitiveHealthInfo"]'));
+           console.log("SensitiveHealthYes:",document.getElementById("InvolvesSensitiveHealthInfoYes").value)
+                   console.log("SensitiveHealthNo:",document.getElementById("InvolvesSensitiveHealthInfoNo").value)
+
+        // Wrap everything into an object
+            var dataToSend = {
+            tierArray: tierArray,
+            dataLeavingJHM: dataLeavingJHM,
+            numRecords: numRecords,
+            consentYN: consentYN,
+            humanDataSharingLevel: humanDataSharingLevel,
+            involvesSensitiveHealthInfo: involvesSensitiveHealthInfo,
+            dataSharingAgreement: dataSharingAgreement
+            };
+
+        // Log the data to ensure it's not null or undefined
+            console.log(dataToSend);
+            
+            //var jsonArray = JSON.stringify(tierArray);
+        try
+        {
+            const response = await fetch('/Utility/GetTierLevel', {
+                method: 'POST',
+
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(dataToSend)
+            });
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+
+            responseString = await response.text();  // Wait for the response to be converted to text
+            console.log('Response:', responseString);  // Log the response
+            return responseString;  // Return the response string to the calling function
+        } catch (error) {
+            console.error('Fetch error:', error);
+            throw error;  // Propagate the error
+        }
+    }
 </script>
 
 
@@ -750,28 +832,7 @@
     });
 </script>
  <script>
-        function updateRiskLevel() {
-            const riskNote = document.getElementById('risk-level-note');
-            let riskLevel = 'Need to answer more questions to determine risk level.'; // Default message
-
-            // You can insert logic here to calculate the risk based on user inputs
-            // Example: if all fields are filled or based on specific conditions, change the message
-            let calculatedRiskLevel = calculateRiskLevel(); // Placeholder for your risk level calculation function
-
-            if (calculatedRiskLevel === 'Preferred') {
-                riskLevel = 'Your risk level is: Preferred';
-            } else if (calculatedRiskLevel === 'Justifiable') {
-                riskLevel = 'Your risk level is: Justifiable';
-            } else if (calculatedRiskLevel === 'External Tools') {
-                riskLevel = 'Your risk level is: External Tools';
-            } else if (calculatedRiskLevel === 'Requires Review') {
-                riskLevel = 'Your risk level is: Requires Review';
-            }
-
-            // Update the content of the sticky note
-            riskNote.innerHTML = riskLevel;
-        }
-
+        
         // Placeholder function to determine risk level
         function calculateRiskLevel() {
             // Insert logic here to determine risk level based on user input
