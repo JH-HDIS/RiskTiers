@@ -532,6 +532,8 @@
    var globalsection1B="";
    var globalsection1C="";
    var globalsection1D="";
+   var globalOraJhuraAnswer=""; // Declare a global variable for ORA/JHURA
+
     document.addEventListener("DOMContentLoaded", function () {
         // References to Data Table radio buttons
         const dataTableRadioButtons = document.querySelectorAll('input[type="radio"][data-option]');
@@ -607,6 +609,7 @@
                 oraJhuraAnswer = 'No';
             }
 
+            globalOraJhuraAnswer = oraJhuraAnswer; // Store the value in a global variable
             return oraJhuraAnswer;
         }
 
@@ -614,10 +617,10 @@
         function updateSelectedOptions() {
             // Collect answers from Section 1 as individual parameters
             const section1Answers = collectSection1Answers();
-            globalsection1A=section1Answers;
+            globalsection1A=section1Answers.section1A;
             globalsection1B=section1Answers.section1B;
             globalsection1C=section1Answers.section1C;
-            globalsection1C=section1Answers.section1D;
+            globalsection1D=section1Answers.section1D;
 
             // Collect answers from Data Table as an array of arrays
             const dataTableSelections = collectDataTableSelections();
@@ -672,80 +675,65 @@
 
         // Perform your risk level calculations here based on the parameters
     }
-     function updateRiskLevel() {
-            const riskNote = document.getElementById('risk-level-note');
-            let riskLevel = 'Need to answer more questions to determine risk level.'; // Default message
-            
-            try {
-                const responseString = getRiskTier().then(responseString => {
-                 // Use the responseString here
-                     console.log('Received string:', responseString);
-                     calculatedRiskLevel = responseString;  // Assign the response string to the calculated risk level
-                    console.log('riskLevel :', calculatedRiskLevel); 
-                    let riskLevel = "Your risk level is: " + calculatedRiskLevel;
-                     riskNote.innerHTML = riskLevel;  // Update the content of the sticky note
-                    });;  
-                
-            } catch (error) {
-                console.error('Error in getResponse:', error);
-            }
-        
 
-            // Update the content of the sticky note
-           
-        }
-         async function getRiskTier() {
-        console.log("GlobalSection1AAnswers:",globalsection1A.section1A);   
-        console.log("GlobalSection1BAnswers:",globalsection1A.section1B);
-            //set values for testing only
-            var dataLeavingJHM = "N"; // Is data leaving JHM
-            var numRecords = globalsection1A.section1B; // 499, 9999 or 10000
-            var consentYN = "Y"; // Y or N
-            var humanDataSharingLevel = "1"; // 0=Directly identifiable data; 1=LDS; 3=Person-level data with No PHI or PII; 4=Aggregate (counts ); 5=Data will not be copied, moved, or shared
-            var involvesSensitiveHealthInfo = "N"; // Y or N
-            var dataSharingAgreement = "N"; // Y or N
-            let responseString = '';  // Declare a variable to hold the response string
-            var tierArray = [
-                ["2.P.7", "C2"],
-                ["2.P.2", "C1"],
-                ["2.J.2", "C4"],
-                ["2.R.2", "C1"]
-                ];
-// Get the selected answer for 1A
-let section1Answers = {};
-            document.querySelectorAll('input[name="InvolvesSensitiveHealthInfo"]').forEach(radio => {
-                if (radio.checked) {
-                    section1Answers.section1A = radio.value;
-                }
+    function updateRiskLevel() {
+        const riskNote = document.getElementById('risk-level-note');
+        let riskLevel = 'Need to answer more questions to determine risk level.'; // Default message
+
+        try {
+            const responseString = getRiskTier().then(responseString => {
+                // Use the responseString here
+                console.log('Received string:', responseString);
+                calculatedRiskLevel = responseString;  // Assign the response string to the calculated risk level
+                console.log('riskLevel :', calculatedRiskLevel); 
+                let riskLevel = "Your risk level is: " + calculatedRiskLevel;
+                riskNote.innerHTML = riskLevel;  // Update the content of the sticky note
             });
-            console.log("Section1AAnswers:",section1Answers.section1A);
-           console.log("Section1BAnswers:",section1Answers.section1B);
-            console.log("Section1BAnswers:",section1Answers.section1C);
-             console.log("Section1BAnswers:",section1Answers.section1D);
-           console.log("sensitiveradiobutton",document.querySelectorAll('input[name="InvolvesSensitiveHealthInfo"]'));
-           console.log("SensitiveHealthYes:",document.getElementById("InvolvesSensitiveHealthInfoYes").value)
-                   console.log("SensitiveHealthNo:",document.getElementById("InvolvesSensitiveHealthInfoNo").value)
+        } catch (error) {
+            console.error('Error in getResponse:', error);
+        }
+    }
+
+    async function getRiskTier() {
+        console.log("GlobalSection1AAnswers:", globalsection1A);   
+        console.log("GlobalSection1BAnswers:", globalsection1B);
+        console.log("GlobalSection1CAnswers:", globalsection1C);
+        console.log("GlobalSection1DAnswers:", globalsection1D);
+        console.log("GlobalOraJhuraAnswer:", globalOraJhuraAnswer); // Log the ORA/JHURA answer
+
+        // Set values for testing only
+        var dataLeavingJHM = "N"; // Is data leaving JHM
+        var numRecords = globalsection1B; // 499, 9999 or 10000
+        var consentYN = "Y"; // Y or N
+        var humanDataSharingLevel = "1"; // 0=Directly identifiable data; 1=LDS; 3=Person-level data with No PHI or PII; 4=Aggregate (counts ); 5=Data will not be copied, moved, or shared
+        var involvesSensitiveHealthInfo = "N"; // Y or N
+        var dataSharingAgreement = "N"; // Y or N
+        let responseString = '';  // Declare a variable to hold the response string
+        var tierArray = [
+            ["2.P.7", "C2"],
+            ["2.P.2", "C1"],
+            ["2.J.2", "C4"],
+            ["2.R.2", "C1"]
+        ];
 
         // Wrap everything into an object
-            var dataToSend = {
+        var dataToSend = {
             tierArray: tierArray,
             dataLeavingJHM: dataLeavingJHM,
             numRecords: numRecords,
             consentYN: consentYN,
             humanDataSharingLevel: humanDataSharingLevel,
             involvesSensitiveHealthInfo: involvesSensitiveHealthInfo,
-            dataSharingAgreement: dataSharingAgreement
-            };
+            dataSharingAgreement: dataSharingAgreement,
+            oraJhuraAnswer: globalOraJhuraAnswer // Include ORA/JHURA in the data sent
+        };
 
         // Log the data to ensure it's not null or undefined
-            console.log(dataToSend);
-            
-            //var jsonArray = JSON.stringify(tierArray);
-        try
-        {
+        console.log(dataToSend);
+
+        try {
             const response = await fetch('/Utility/GetTierLevel', {
                 method: 'POST',
-
                 headers: {
                     'Content-Type': 'application/json'
                 },
@@ -765,7 +753,6 @@ let section1Answers = {};
         }
     }
 </script>
-
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {
