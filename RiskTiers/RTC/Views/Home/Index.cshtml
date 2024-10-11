@@ -527,10 +527,11 @@
         
     </form>
 </div>
-
 <script>
    var globalsection1A="";
    var globalsection1B="";
+   var globalsection1C="";
+   var globalsection1D="";
     document.addEventListener("DOMContentLoaded", function () {
         // References to Data Table radio buttons
         const dataTableRadioButtons = document.querySelectorAll('input[type="radio"][data-option]');
@@ -580,21 +581,20 @@
             return section1Answers;
         }
 
-        // Function to collect Data Table radio button selections and return as an array
+        // Function to collect Data Table radio button selections and return as an array of arrays
         function collectDataTableSelections() {
             let dataTableAnswers = [];
 
             dataTableRadioButtons.forEach(radio => {
                 if (radio.checked) {
-                    dataTableAnswers.push({
-                        option: radio.getAttribute('data-option'),
-                        column: radio.getAttribute('data-column'),
-                        value: radio.value
-                    });
+                    dataTableAnswers.push([
+                        radio.getAttribute('data-option'),
+                        radio.getAttribute('data-column')
+                    ]);
                 }
             });
 
-            return dataTableAnswers;
+            return dataTableAnswers; // This will now return an array like [["2.P.7", "C2"], ...]
         }
 
         // Function to collect ORA/JHURA agreement answer
@@ -616,8 +616,10 @@
             const section1Answers = collectSection1Answers();
             globalsection1A=section1Answers;
             globalsection1B=section1Answers.section1B;
+            globalsection1C=section1Answers.section1C;
+            globalsection1C=section1Answers.section1D;
 
-            // Collect answers from Data Table as an array
+            // Collect answers from Data Table as an array of arrays
             const dataTableSelections = collectDataTableSelections();
 
             // Collect ORA/JHURA agreement as a parameter
@@ -625,7 +627,7 @@
 
             // Log the values for testing (you can see them in the browser's console)
             console.log('Section 1 Answers:', section1Answers);
-            console.log('Data Table Selections:', dataTableSelections);
+            console.log('Data Table Selections (array):', dataTableSelections);
             console.log('ORA/JHURA Answer:', oraJhuraAnswer);
 
             // Send the data to your calculation function
@@ -666,7 +668,7 @@
         console.log("Section 1C:", section1C);
         console.log("Section 1D:", section1D);
         console.log("ORA/JHURA Answer:", oraJhuraAnswer);
-        console.log("Data Table Selections:", dataTableSelections);
+        console.log("Data Table Selections (array):", dataTableSelections);
 
         // Perform your risk level calculations here based on the parameters
     }
@@ -718,6 +720,8 @@ let section1Answers = {};
             });
             console.log("Section1AAnswers:",section1Answers.section1A);
            console.log("Section1BAnswers:",section1Answers.section1B);
+            console.log("Section1BAnswers:",section1Answers.section1C);
+             console.log("Section1BAnswers:",section1Answers.section1D);
            console.log("sensitiveradiobutton",document.querySelectorAll('input[name="InvolvesSensitiveHealthInfo"]'));
            console.log("SensitiveHealthYes:",document.getElementById("InvolvesSensitiveHealthInfoYes").value)
                    console.log("SensitiveHealthNo:",document.getElementById("InvolvesSensitiveHealthInfoNo").value)
