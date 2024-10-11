@@ -67,7 +67,7 @@ namespace ClinicalResearchApp.Data
                                 }
                                 else
                                 {
-                                    if (numRec == "10000") 
+                                    if (numRec == "2") 
                                     {
                                         tiers.Add("Tier C");
                                     }
@@ -94,7 +94,7 @@ namespace ClinicalResearchApp.Data
                                 {
                                     if (colPos == "C1" || colPos == "C2")
                                     {
-                                        if (numRec == "499") {
+                                        if (numRec == "0") {
                                             if (dataLeaving == "N") 
                                             {
                                                 tiers.Add("Tier B");

@@ -529,6 +529,8 @@
 </div>
 
 <script>
+   var globalsection1A="";
+   var globalsection1B="";
     document.addEventListener("DOMContentLoaded", function () {
         // References to Data Table radio buttons
         const dataTableRadioButtons = document.querySelectorAll('input[type="radio"][data-option]');
@@ -612,6 +614,8 @@
         function updateSelectedOptions() {
             // Collect answers from Section 1 as individual parameters
             const section1Answers = collectSection1Answers();
+            globalsection1A=section1Answers;
+            globalsection1B=section1Answers.section1B;
 
             // Collect answers from Data Table as an array
             const dataTableSelections = collectDataTableSelections();
@@ -689,11 +693,11 @@
            
         }
          async function getRiskTier() {
-            
-           
+        console.log("GlobalSection1AAnswers:",globalsection1A.section1A);   
+        console.log("GlobalSection1BAnswers:",globalsection1A.section1B);
             //set values for testing only
             var dataLeavingJHM = "N"; // Is data leaving JHM
-            var numRecords = "9999"; // 499, 9999 or 10000
+            var numRecords = globalsection1A.section1B; // 499, 9999 or 10000
             var consentYN = "Y"; // Y or N
             var humanDataSharingLevel = "1"; // 0=Directly identifiable data; 1=LDS; 3=Person-level data with No PHI or PII; 4=Aggregate (counts ); 5=Data will not be copied, moved, or shared
             var involvesSensitiveHealthInfo = "N"; // Y or N
@@ -705,7 +709,15 @@
                 ["2.J.2", "C4"],
                 ["2.R.2", "C1"]
                 ];
-
+// Get the selected answer for 1A
+let section1Answers = {};
+            document.querySelectorAll('input[name="InvolvesSensitiveHealthInfo"]').forEach(radio => {
+                if (radio.checked) {
+                    section1Answers.section1A = radio.value;
+                }
+            });
+            console.log("Section1AAnswers:",section1Answers.section1A);
+           console.log("Section1BAnswers:",section1Answers.section1B);
            console.log("sensitiveradiobutton",document.querySelectorAll('input[name="InvolvesSensitiveHealthInfo"]'));
            console.log("SensitiveHealthYes:",document.getElementById("InvolvesSensitiveHealthInfoYes").value)
                    console.log("SensitiveHealthNo:",document.getElementById("InvolvesSensitiveHealthInfoNo").value)
@@ -833,13 +845,6 @@
 </script>
  <script>
         
-        // Placeholder function to determine risk level
-        function calculateRiskLevel() {
-            // Insert logic here to determine risk level based on user input
-            // For now, return "Preferred" as an example
-            return 'Preferred'; 
-        }
-
         // Example event listener to trigger risk level calculation when an input changes
         document.querySelectorAll('input').forEach(input => {
             input.addEventListener('change', updateRiskLevel);
