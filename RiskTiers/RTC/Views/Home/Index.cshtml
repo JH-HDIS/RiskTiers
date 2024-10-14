@@ -762,7 +762,6 @@
 
 <script>
 document.addEventListener("DOMContentLoaded", function () {
-    // Get references to buttons and modal
     const generatePdfButton = document.getElementById("generatePdfButton");
     const sendEmailBtn = document.getElementById("sendEmailBtn");
     const skipBtn = document.getElementById("skipBtn");
@@ -770,30 +769,24 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Handle the case where the user skips the email
     skipBtn.addEventListener("click", function () {
-        // Generate the PDF
         const doc = generatePdf();
-
-        // Convert the PDF to Blob and open in a new window
         const pdfBlob = doc.output("blob");
         const blobUrl = URL.createObjectURL(pdfBlob);
         window.open(blobUrl, "_blank");
-        
-        $("#emailModal").modal("hide"); // Hide the modal
+        $("#emailModal").modal("hide");
     });
 
-    // Handle the case where the user wants the PDF via email
     sendEmailBtn.addEventListener("click", function () {
         const email = userEmailInput.value;
         if (email) {
             console.log("Send PDF to email:", email);
             alert("A copy of the PDF will be sent to " + email);
-            $("#emailModal").modal("hide"); // Hide the modal
+            $("#emailModal").modal("hide");
         } else {
             alert("Please enter a valid email address.");
         }
     });
 
-    // When Generate PDF button is clicked, show the email modal
     generatePdfButton.addEventListener("click", function () {
         $("#emailModal").modal("show");
     });
@@ -802,30 +795,23 @@ document.addEventListener("DOMContentLoaded", function () {
     function generatePdf() {
         const { jsPDF } = window.jspdf;
         const doc = new jsPDF();
-        const tableData = collectDataTableSelections(); // Collect the table data
+        const tableData = collectDataTableSelections();
 
-        // Section: Personal Information
-        const rtcCompletionDate = document.getElementById("RTCCompletionDate")
-            ? document.getElementById("RTCCompletionDate").value
-            : "N/A";
-        const irbApplicationNumber = document.getElementById("IRBApplicationNumber")
-            ? document.getElementById("IRBApplicationNumber").value
-            : "N/A";
-        const piFirstName = document.getElementById("PIFirstName")
-            ? document.getElementById("PIFirstName").value
-            : "N/A";
-        const piLastName = document.getElementById("PILastName")
-            ? document.getElementById("PILastName").value
-            : "N/A";
-        const piJHED = document.getElementById("PIJHED")
-            ? document.getElementById("PIJHED").value
-            : "N/A";
-        const piEmailAddress = document.getElementById("PIEmailAddress")
-            ? document.getElementById("PIEmailAddress").value
-            : "N/A";
+        const rtcCompletionDate = document.getElementById("RTCCompletionDate")?.value || "N/A";
+        const irbApplicationNumber = document.getElementById("IRBApplicationNumber")?.value || "N/A";
+        const piFirstName = document.getElementById("PIFirstName")?.value || "N/A";
+        const piLastName = document.getElementById("PILastName")?.value || "N/A";
+        const piJHED = document.getElementById("PIJHED")?.value || "N/A";
+        const piEmailAddress = document.getElementById("PIEmailAddress")?.value || "N/A";
+        const studyContactFirstName = document.getElementById("StudyContactFirstName")?.value || "N/A";
+        const studyContactLastName = document.getElementById("StudyContactLastName")?.value || "N/A";
+        const studyContactJHED = document.getElementById("StudyContactJHED")?.value || "N/A";
+        const studyContactEmailAddress = document.getElementById("StudyContactEmailAddress")?.value || "N/A";
 
         doc.setFontSize(16);
         doc.text("Risk Tiers Calculator - PDF Summary", 10, 10);
+
+        // Adjusted Y-values to prevent overlap
         doc.setFontSize(12);
         doc.text("RTC Completion Date: " + rtcCompletionDate, 10, 20);
         doc.text("IRB Application Number: " + irbApplicationNumber, 10, 30);
@@ -834,37 +820,37 @@ document.addEventListener("DOMContentLoaded", function () {
         doc.text("PI JHED: " + piJHED, 10, 60);
         doc.text("PI Email Address: " + piEmailAddress, 10, 70);
 
+        doc.setFontSize(14);
+        doc.text("Study Contact Information (Optional)", 10, 80);
+        doc.setFontSize(12);
+        doc.text("Study Contact First Name: " + studyContactFirstName, 10, 90);
+        doc.text("Study Contact Last Name: " + studyContactLastName, 10, 100);
+        doc.text("Study Contact JHED: " + studyContactJHED, 10, 110);
+        doc.text("Study Contact Email Address: " + studyContactEmailAddress, 10, 120);
+
         // Section 1: Data Characteristics and Data Access
         doc.setFontSize(14);
-        doc.text("Section 1: Data Characteristics and Data Access", 10, 80);
+        doc.text("Section 1: Data Characteristics and Data Access", 10, 130);
         doc.setFontSize(12);
 
-        const involvesSensitiveHealthInfo = document.querySelector('input[name="InvolvesSensitiveHealthInfo"]:checked')
-            ? document.querySelector('input[name="InvolvesSensitiveHealthInfo"]:checked').nextElementSibling.textContent
-            : "N/A";
-        doc.text("1A. Involves Sensitive Health Info: " + involvesSensitiveHealthInfo, 10, 90);
+        const involvesSensitiveHealthInfo = document.querySelector('input[name="InvolvesSensitiveHealthInfo"]:checked')?.nextElementSibling.textContent || "N/A";
+        doc.text("1A. Involves Sensitive Health Info: " + involvesSensitiveHealthInfo, 10, 140);
 
-        const numberOfPeopleOrRecords = document.querySelector('input[name="NumberOfPeopleOrRecords"]:checked')
-            ? document.querySelector('input[name="NumberOfPeopleOrRecords"]:checked').nextElementSibling.textContent
-            : "N/A";
-        doc.text("1B. Number of People/Records: " + numberOfPeopleOrRecords, 10, 100);
+        const numberOfPeopleOrRecords = document.querySelector('input[name="NumberOfPeopleOrRecords"]:checked')?.nextElementSibling.textContent || "N/A";
+        doc.text("1B. Number of People/Records: " + numberOfPeopleOrRecords, 10, 150);
 
-        const humanDataSharingLevel = document.querySelector('input[name="HumanDataSharingLevel"]:checked')
-            ? document.querySelector('input[name="HumanDataSharingLevel"]:checked').nextElementSibling.textContent
-            : "N/A";
-        doc.text("1C. Human Data Sharing Level: " + humanDataSharingLevel, 10, 110);
+        const humanDataSharingLevel = document.querySelector('input[name="HumanDataSharingLevel"]:checked')?.nextElementSibling.textContent || "N/A";
+        doc.text("1C. Human Data Sharing Level: " + humanDataSharingLevel, 10, 160);
 
-        const allActivitiesCoveredByConsent = document.querySelector('input[name="AllActivitiesCoveredByConsent"]:checked')
-            ? document.querySelector('input[name="AllActivitiesCoveredByConsent"]:checked').nextElementSibling.textContent
-            : "N/A";
-        doc.text("1D. All Activities Covered By Consent: " + allActivitiesCoveredByConsent, 10, 120);
+        const allActivitiesCoveredByConsent = document.querySelector('input[name="AllActivitiesCoveredByConsent"]:checked')?.nextElementSibling.textContent || "N/A";
+        doc.text("1D. All Activities Covered By Consent: " + allActivitiesCoveredByConsent, 10, 170);
 
         // Section 2: Data Storage Table
         doc.setFontSize(14);
-        doc.text("Section 2: Data Storage", 10, 130);
+        doc.text("Section 2: Data Storage", 10, 180);
         doc.setFontSize(12);
 
-        // Add the Data Table
+        // Add the Data Table with checkmarks
         doc.autoTable({
             head: [["Option", "Text PHI", "PHI>LDS", "Limited Dataset (LDS)", "PHI but no PII", "Person-level data", "Aggregate (counts)", "Not Used"]],
             body: tableData.map((row) => [
@@ -877,19 +863,15 @@ document.addEventListener("DOMContentLoaded", function () {
                 row.columns.includes("C6") ? "✔" : "",
                 row.columns.includes("C7") ? "✔" : "",
             ]),
-            startY: 140,
+            startY: 190,
         });
 
-        // ORA/JHURA conditional question
-        const dataSharingAgreement = document.querySelector('input[name="DataSharingAgreement"]:checked')
-            ? document.querySelector('input[name="DataSharingAgreement"]:checked').nextElementSibling.textContent
-            : "N/A";
+        const dataSharingAgreement = document.querySelector('input[name="DataSharingAgreement"]:checked')?.nextElementSibling.textContent || "N/A";
         doc.text("Is data sharing covered by an ORA/JHURA agreement: " + dataSharingAgreement, 10, doc.lastAutoTable.finalY + 10);
 
-        return doc; // Return the jsPDF instance
+        return doc;
     }
 
-    // Function to collect Data Table radio button selections and return as an array of objects
     function collectDataTableSelections() {
         const dataTableSelections = [];
         const dataTableRadioButtons = document.querySelectorAll('input[type="radio"][data-option]');
@@ -899,10 +881,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 const option = radio.getAttribute("data-option");
                 const column = radio.getAttribute("data-column");
 
-                // Check if the option already exists in the array
                 let existing = dataTableSelections.find((entry) => entry.option === option);
                 if (existing) {
-                    existing.columns.push(column); // Add the new column to the existing entry
+                    existing.columns.push(column);
                 } else {
                     dataTableSelections.push({
                         option: option,
@@ -912,7 +893,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
 
-        return dataTableSelections; // Returns an array of objects with option and columns
+        return dataTableSelections;
     }
 });
 
