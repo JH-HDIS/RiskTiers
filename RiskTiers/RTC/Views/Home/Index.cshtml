@@ -15,6 +15,9 @@
 
      <!-- Include jsPDF library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+   
+    <!-- Include the jsPDF AutoTable plugin -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
 
     <!-- Additional custom styles specific to this page -->
     <style>
@@ -760,49 +763,66 @@
 <script>
 document.addEventListener("DOMContentLoaded", function () {
     // Get references to buttons and modal
-    const generatePdfButton = document.getElementById('generatePdfButton');
-    const sendEmailBtn = document.getElementById('sendEmailBtn');
-    const skipBtn = document.getElementById('skipBtn');
-    const userEmailInput = document.getElementById('userEmail');
+    const generatePdfButton = document.getElementById("generatePdfButton");
+    const sendEmailBtn = document.getElementById("sendEmailBtn");
+    const skipBtn = document.getElementById("skipBtn");
+    const userEmailInput = document.getElementById("userEmail");
 
     // Handle the case where the user skips the email
-    skipBtn.addEventListener('click', function () {
+    skipBtn.addEventListener("click", function () {
+        // Generate the PDF
         const doc = generatePdf();
-        const pdfBlob = doc.output('blob');
+
+        // Convert the PDF to Blob and open in a new window
+        const pdfBlob = doc.output("blob");
         const blobUrl = URL.createObjectURL(pdfBlob);
-        window.open(blobUrl, '_blank');
-        $('#emailModal').modal('hide');
+        window.open(blobUrl, "_blank");
+        
+        $("#emailModal").modal("hide"); // Hide the modal
     });
 
     // Handle the case where the user wants the PDF via email
-    sendEmailBtn.addEventListener('click', function () {
+    sendEmailBtn.addEventListener("click", function () {
         const email = userEmailInput.value;
         if (email) {
-            console.log('Send PDF to email:', email);
-            alert('A copy of the PDF will be sent to ' + email);
-            $('#emailModal').modal('hide');
+            console.log("Send PDF to email:", email);
+            alert("A copy of the PDF will be sent to " + email);
+            $("#emailModal").modal("hide"); // Hide the modal
         } else {
-            alert('Please enter a valid email address.');
+            alert("Please enter a valid email address.");
         }
     });
 
-    // Show the email modal when Generate PDF is clicked
-    generatePdfButton.addEventListener('click', function () {
-        $('#emailModal').modal('show');
+    // When Generate PDF button is clicked, show the email modal
+    generatePdfButton.addEventListener("click", function () {
+        $("#emailModal").modal("show");
     });
 
     // PDF Generation function
     function generatePdf() {
         const { jsPDF } = window.jspdf;
         const doc = new jsPDF();
+        const tableData = collectDataTableSelections(); // Collect the table data
 
         // Section: Personal Information
-        const rtcCompletionDate = document.getElementById("RTCCompletionDate") ? document.getElementById("RTCCompletionDate").value : "N/A";
-        const irbApplicationNumber = document.getElementById("IRBApplicationNumber") ? document.getElementById("IRBApplicationNumber").value : "N/A";
-        const piFirstName = document.getElementById("PIFirstName") ? document.getElementById("PIFirstName").value : "N/A";
-        const piLastName = document.getElementById("PILastName") ? document.getElementById("PILastName").value : "N/A";
-        const piJHED = document.getElementById("PIJHED") ? document.getElementById("PIJHED").value : "N/A";
-        const piEmailAddress = document.getElementById("PIEmailAddress") ? document.getElementById("PIEmailAddress").value : "N/A";
+        const rtcCompletionDate = document.getElementById("RTCCompletionDate")
+            ? document.getElementById("RTCCompletionDate").value
+            : "N/A";
+        const irbApplicationNumber = document.getElementById("IRBApplicationNumber")
+            ? document.getElementById("IRBApplicationNumber").value
+            : "N/A";
+        const piFirstName = document.getElementById("PIFirstName")
+            ? document.getElementById("PIFirstName").value
+            : "N/A";
+        const piLastName = document.getElementById("PILastName")
+            ? document.getElementById("PILastName").value
+            : "N/A";
+        const piJHED = document.getElementById("PIJHED")
+            ? document.getElementById("PIJHED").value
+            : "N/A";
+        const piEmailAddress = document.getElementById("PIEmailAddress")
+            ? document.getElementById("PIEmailAddress").value
+            : "N/A";
 
         doc.setFontSize(16);
         doc.text("Risk Tiers Calculator - PDF Summary", 10, 10);
@@ -819,52 +839,80 @@ document.addEventListener("DOMContentLoaded", function () {
         doc.text("Section 1: Data Characteristics and Data Access", 10, 80);
         doc.setFontSize(12);
 
-        // Sensitive Health Info
-        const involvesSensitiveHealthInfo = document.querySelector('input[name="InvolvesSensitiveHealthInfo"]:checked') 
-            ? document.querySelector('input[name="InvolvesSensitiveHealthInfo"]:checked').nextElementSibling.textContent 
-            : 'N/A';
+        const involvesSensitiveHealthInfo = document.querySelector('input[name="InvolvesSensitiveHealthInfo"]:checked')
+            ? document.querySelector('input[name="InvolvesSensitiveHealthInfo"]:checked').nextElementSibling.textContent
+            : "N/A";
         doc.text("1A. Involves Sensitive Health Info: " + involvesSensitiveHealthInfo, 10, 90);
 
-        // Number of People or Records
-        const numberOfPeopleOrRecords = document.querySelector('input[name="NumberOfPeopleOrRecords"]:checked') 
-            ? document.querySelector('input[name="NumberOfPeopleOrRecords"]:checked').nextElementSibling.textContent 
-            : 'N/A';
+        const numberOfPeopleOrRecords = document.querySelector('input[name="NumberOfPeopleOrRecords"]:checked')
+            ? document.querySelector('input[name="NumberOfPeopleOrRecords"]:checked').nextElementSibling.textContent
+            : "N/A";
         doc.text("1B. Number of People/Records: " + numberOfPeopleOrRecords, 10, 100);
 
-        // Human Data Sharing Level
-        const humanDataSharingLevel = document.querySelector('input[name="HumanDataSharingLevel"]:checked') 
-            ? document.querySelector('input[name="HumanDataSharingLevel"]:checked').nextElementSibling.textContent 
-            : 'N/A';
+        const humanDataSharingLevel = document.querySelector('input[name="HumanDataSharingLevel"]:checked')
+            ? document.querySelector('input[name="HumanDataSharingLevel"]:checked').nextElementSibling.textContent
+            : "N/A";
         doc.text("1C. Human Data Sharing Level: " + humanDataSharingLevel, 10, 110);
 
-        // All Activities Covered By Consent
-        const allActivitiesCoveredByConsent = document.querySelector('input[name="AllActivitiesCoveredByConsent"]:checked') 
-            ? document.querySelector('input[name="AllActivitiesCoveredByConsent"]:checked').nextElementSibling.textContent 
-            : 'N/A';
+        const allActivitiesCoveredByConsent = document.querySelector('input[name="AllActivitiesCoveredByConsent"]:checked')
+            ? document.querySelector('input[name="AllActivitiesCoveredByConsent"]:checked').nextElementSibling.textContent
+            : "N/A";
         doc.text("1D. All Activities Covered By Consent: " + allActivitiesCoveredByConsent, 10, 120);
 
-        // Section 2: Data Storage
+        // Section 2: Data Storage Table
         doc.setFontSize(14);
         doc.text("Section 2: Data Storage", 10, 130);
         doc.setFontSize(12);
 
-        // Collect all radio button selections from the data storage table
+        // Add the Data Table
+        doc.autoTable({
+            head: [["Option", "Text PHI", "PHI>LDS", "Limited Dataset (LDS)", "PHI but no PII", "Person-level data", "Aggregate (counts)", "Not Used"]],
+            body: tableData.map((row) => [
+                row.option,
+                row.columns.includes("C1") ? "✔" : "",
+                row.columns.includes("C2") ? "✔" : "",
+                row.columns.includes("C3") ? "✔" : "",
+                row.columns.includes("C4") ? "✔" : "",
+                row.columns.includes("C5") ? "✔" : "",
+                row.columns.includes("C6") ? "✔" : "",
+                row.columns.includes("C7") ? "✔" : "",
+            ]),
+            startY: 140,
+        });
+
+        // ORA/JHURA conditional question
+        const dataSharingAgreement = document.querySelector('input[name="DataSharingAgreement"]:checked')
+            ? document.querySelector('input[name="DataSharingAgreement"]:checked').nextElementSibling.textContent
+            : "N/A";
+        doc.text("Is data sharing covered by an ORA/JHURA agreement: " + dataSharingAgreement, 10, doc.lastAutoTable.finalY + 10);
+
+        return doc; // Return the jsPDF instance
+    }
+
+    // Function to collect Data Table radio button selections and return as an array of objects
+    function collectDataTableSelections() {
+        const dataTableSelections = [];
         const dataTableRadioButtons = document.querySelectorAll('input[type="radio"][data-option]');
-        dataTableRadioButtons.forEach(radio => {
+
+        dataTableRadioButtons.forEach((radio) => {
             if (radio.checked) {
-                const optionText = radio.closest('tr').querySelector('td').textContent.trim(); // Get option description
-                const columnText = radio.nextElementSibling ? radio.nextElementSibling.textContent : 'N/A'; // Get radio label
-                doc.text(optionText + ": " + columnText, 10, 140);
+                const option = radio.getAttribute("data-option");
+                const column = radio.getAttribute("data-column");
+
+                // Check if the option already exists in the array
+                let existing = dataTableSelections.find((entry) => entry.option === option);
+                if (existing) {
+                    existing.columns.push(column); // Add the new column to the existing entry
+                } else {
+                    dataTableSelections.push({
+                        option: option,
+                        columns: [column],
+                    });
+                }
             }
         });
 
-        // Conditional ORA/JHURA question
-        const dataSharingAgreement = document.querySelector('input[name="DataSharingAgreement"]:checked') 
-            ? document.querySelector('input[name="DataSharingAgreement"]:checked').nextElementSibling.textContent 
-            : 'N/A';
-        doc.text("Is data sharing covered by an ORA/JHURA agreement: " + dataSharingAgreement, 10, 150);
-
-        return doc; // Return the jsPDF instance
+        return dataTableSelections; // Returns an array of objects with option and columns
     }
 });
 
