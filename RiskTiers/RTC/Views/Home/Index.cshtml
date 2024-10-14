@@ -13,6 +13,9 @@
     <!-- Link to Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
+     <!-- Include jsPDF library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
     <!-- Additional custom styles specific to this page -->
     <style>
     .form-section {
@@ -755,39 +758,118 @@
 </script>
 
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        // Get references to buttons and modal
-        const generatePdfButton = document.getElementById('generatePdfButton');
-        const sendEmailBtn = document.getElementById('sendEmailBtn');
-        const skipBtn = document.getElementById('skipBtn');
-        const userEmailInput = document.getElementById('userEmail');
+document.addEventListener("DOMContentLoaded", function () {
+    // Get references to buttons and modal
+    const generatePdfButton = document.getElementById('generatePdfButton');
+    const sendEmailBtn = document.getElementById('sendEmailBtn');
+    const skipBtn = document.getElementById('skipBtn');
+    const userEmailInput = document.getElementById('userEmail');
 
-        // When Generate PDF button is clicked, show the email modal
-        generatePdfButton.addEventListener('click', function() {
-            $('#emailModal').modal('show'); // Show the email modal
-        });
+    // Handle the case where the user skips the email
+    skipBtn.addEventListener('click', function () {
+        const doc = generatePdf();
+        const pdfBlob = doc.output('blob');
+        const blobUrl = URL.createObjectURL(pdfBlob);
+        window.open(blobUrl, '_blank');
+        $('#emailModal').modal('hide');
+    });
 
-        // Handle the case where the user skips the email
-        skipBtn.addEventListener('click', function() {
-            window.open('path_to_your_generated_pdf.pdf', '_blank'); // Open the PDF in a new window
-        });
+    // Handle the case where the user wants the PDF via email
+    sendEmailBtn.addEventListener('click', function () {
+        const email = userEmailInput.value;
+        if (email) {
+            console.log('Send PDF to email:', email);
+            alert('A copy of the PDF will be sent to ' + email);
+            $('#emailModal').modal('hide');
+        } else {
+            alert('Please enter a valid email address.');
+        }
+    });
 
-        // Handle the case where the user wants the PDF via email
-        sendEmailBtn.addEventListener('click', function() {
-            const email = userEmailInput.value;
-            if (email) {
-                // Here, you'd send the email using backend logic
-                console.log('Send PDF to email:', email);
+    // Show the email modal when Generate PDF is clicked
+    generatePdfButton.addEventListener('click', function () {
+        $('#emailModal').modal('show');
+    });
 
-                // For now, we'll just simulate success
-                alert('A copy of the PDF will be sent to ' + email);
-                $('#emailModal').modal('hide'); // Hide the modal
-            } else {
-                alert('Please enter a valid email address.');
+    // PDF Generation function
+    function generatePdf() {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+
+        // Section: Personal Information
+        const rtcCompletionDate = document.getElementById("RTCCompletionDate") ? document.getElementById("RTCCompletionDate").value : "N/A";
+        const irbApplicationNumber = document.getElementById("IRBApplicationNumber") ? document.getElementById("IRBApplicationNumber").value : "N/A";
+        const piFirstName = document.getElementById("PIFirstName") ? document.getElementById("PIFirstName").value : "N/A";
+        const piLastName = document.getElementById("PILastName") ? document.getElementById("PILastName").value : "N/A";
+        const piJHED = document.getElementById("PIJHED") ? document.getElementById("PIJHED").value : "N/A";
+        const piEmailAddress = document.getElementById("PIEmailAddress") ? document.getElementById("PIEmailAddress").value : "N/A";
+
+        doc.setFontSize(16);
+        doc.text("Risk Tiers Calculator - PDF Summary", 10, 10);
+        doc.setFontSize(12);
+        doc.text("RTC Completion Date: " + rtcCompletionDate, 10, 20);
+        doc.text("IRB Application Number: " + irbApplicationNumber, 10, 30);
+        doc.text("PI First Name: " + piFirstName, 10, 40);
+        doc.text("PI Last Name: " + piLastName, 10, 50);
+        doc.text("PI JHED: " + piJHED, 10, 60);
+        doc.text("PI Email Address: " + piEmailAddress, 10, 70);
+
+        // Section 1: Data Characteristics and Data Access
+        doc.setFontSize(14);
+        doc.text("Section 1: Data Characteristics and Data Access", 10, 80);
+        doc.setFontSize(12);
+
+        // Sensitive Health Info
+        const involvesSensitiveHealthInfo = document.querySelector('input[name="InvolvesSensitiveHealthInfo"]:checked') 
+            ? document.querySelector('input[name="InvolvesSensitiveHealthInfo"]:checked').nextElementSibling.textContent 
+            : 'N/A';
+        doc.text("1A. Involves Sensitive Health Info: " + involvesSensitiveHealthInfo, 10, 90);
+
+        // Number of People or Records
+        const numberOfPeopleOrRecords = document.querySelector('input[name="NumberOfPeopleOrRecords"]:checked') 
+            ? document.querySelector('input[name="NumberOfPeopleOrRecords"]:checked').nextElementSibling.textContent 
+            : 'N/A';
+        doc.text("1B. Number of People/Records: " + numberOfPeopleOrRecords, 10, 100);
+
+        // Human Data Sharing Level
+        const humanDataSharingLevel = document.querySelector('input[name="HumanDataSharingLevel"]:checked') 
+            ? document.querySelector('input[name="HumanDataSharingLevel"]:checked').nextElementSibling.textContent 
+            : 'N/A';
+        doc.text("1C. Human Data Sharing Level: " + humanDataSharingLevel, 10, 110);
+
+        // All Activities Covered By Consent
+        const allActivitiesCoveredByConsent = document.querySelector('input[name="AllActivitiesCoveredByConsent"]:checked') 
+            ? document.querySelector('input[name="AllActivitiesCoveredByConsent"]:checked').nextElementSibling.textContent 
+            : 'N/A';
+        doc.text("1D. All Activities Covered By Consent: " + allActivitiesCoveredByConsent, 10, 120);
+
+        // Section 2: Data Storage
+        doc.setFontSize(14);
+        doc.text("Section 2: Data Storage", 10, 130);
+        doc.setFontSize(12);
+
+        // Collect all radio button selections from the data storage table
+        const dataTableRadioButtons = document.querySelectorAll('input[type="radio"][data-option]');
+        dataTableRadioButtons.forEach(radio => {
+            if (radio.checked) {
+                const optionText = radio.closest('tr').querySelector('td').textContent.trim(); // Get option description
+                const columnText = radio.nextElementSibling ? radio.nextElementSibling.textContent : 'N/A'; // Get radio label
+                doc.text(optionText + ": " + columnText, 10, 140);
             }
         });
-    });
+
+        // Conditional ORA/JHURA question
+        const dataSharingAgreement = document.querySelector('input[name="DataSharingAgreement"]:checked') 
+            ? document.querySelector('input[name="DataSharingAgreement"]:checked').nextElementSibling.textContent 
+            : 'N/A';
+        doc.text("Is data sharing covered by an ORA/JHURA agreement: " + dataSharingAgreement, 10, 150);
+
+        return doc; // Return the jsPDF instance
+    }
+});
+
 </script>
+
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         const radioButtons = document.querySelectorAll('input[type="radio"]');
@@ -854,7 +936,7 @@
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 
 <!-- Load Bootstrap JS -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <!-- Load your custom JavaScript last -->
 <script src="~/js/logic.js"></script>
