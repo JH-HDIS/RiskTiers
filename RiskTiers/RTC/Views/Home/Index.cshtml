@@ -533,12 +533,12 @@
         
     </form>
 </div>
-<script>
-   var globalsection1A="";
-   var globalsection1B="";
-   var globalsection1C="";
-   var globalsection1D="";
-   var globalOraJhuraAnswer=""; // Declare a global variable for ORA/JHURA
+<<script>
+   var globalsection1A = "";
+   var globalsection1B = "";
+   var globalsection1C = "";
+   var globalsection1D = "";
+   var globalOraJhuraAnswer = ""; // Declare a global variable for ORA/JHURA
 
     document.addEventListener("DOMContentLoaded", function () {
         // References to Data Table radio buttons
@@ -623,10 +623,10 @@
         function updateSelectedOptions() {
             // Collect answers from Section 1 as individual parameters
             const section1Answers = collectSection1Answers();
-            globalsection1A=section1Answers.section1A;
-            globalsection1B=section1Answers.section1B;
-            globalsection1C=section1Answers.section1C;
-            globalsection1D=section1Answers.section1D;
+            globalsection1A = section1Answers.section1A;
+            globalsection1B = section1Answers.section1B;
+            globalsection1C = section1Answers.section1C;
+            globalsection1D = section1Answers.section1D;
 
             // Collect answers from Data Table as an array of arrays
             const dataTableSelections = collectDataTableSelections();
@@ -640,11 +640,11 @@
             console.log('ORA/JHURA Answer:', oraJhuraAnswer);
 
             // Send the data to your calculation function
-            calculateRiskLevel(
-                section1Answers.section1A,
-                section1Answers.section1B,
-                section1Answers.section1C,
-                section1Answers.section1D,
+            sendToServer(
+                globalsection1A,
+                globalsection1B,
+                globalsection1C,
+                globalsection1D,
                 oraJhuraAnswer,
                 dataTableSelections
             );
@@ -668,80 +668,74 @@
         updateSelectedOptions();
     });
 
-    // Example placeholder for the calculation function
-    function calculateRiskLevel(section1A, section1B, section1C, section1D, oraJhuraAnswer, dataTableSelections) {
-        // This is where you'd process the received data for calculation.
-        // Log them for now to verify the correct data is being passed.
-        console.log("Section 1A:", section1A);
-        console.log("Section 1B:", section1B);
-        console.log("Section 1C:", section1C);
-        console.log("Section 1D:", section1D);
-        console.log("ORA/JHURA Answer:", oraJhuraAnswer);
-        console.log("Data Table Selections (array):", dataTableSelections);
-
-        // Perform your risk level calculations here based on the parameters
-    }
-
-    function updateRiskLevel() {
-        const riskNote = document.getElementById('risk-level-note');
-        let riskLevel = 'Need to answer more questions to determine risk level.'; // Default message
-
+    async function sendToServer(
+        involvesSensitiveHealthInfo,
+        numRecords,
+        humanDataSharingLevel,
+        consentYN,
+        oraJhuraAnswer,
+        dataTableSelections
+    ) {
         try {
-            const responseString = getRiskTier().then(responseString => {
-                // Use the responseString here
-                console.log('Received string:', responseString);
-                calculatedRiskLevel = responseString;  // Assign the response string to the calculated risk level
-                console.log('riskLevel :', calculatedRiskLevel); 
-                let riskLevel = "Your risk level is: " + calculatedRiskLevel;
-                riskNote.innerHTML = riskLevel;  // Update the content of the sticky note
-            });
-        } catch (error) {
-            console.error('Error in getResponse:', error);
-        }
-    }
+            // Convert boolean "true"/"false" to "Y"/"N" for involvesSensitiveHealthInfo, consentYN, ORA question, etc.
+            involvesSensitiveHealthInfo = involvesSensitiveHealthInfo === "true" ? "Y" : "N";
+            consentYN = consentYN === "true" ? "Y" : "N";
+            oraJhuraAnswer = oraJhuraAnswer === "Yes" ? "Y" : "N";  // For ORA question
 
-    async function getRiskTier() {
-        console.log("GlobalSection1AAnswers:", globalsection1A);   
-        console.log("GlobalSection1BAnswers:", globalsection1B);
-        console.log("GlobalSection1CAnswers:", globalsection1C);
-        console.log("GlobalSection1DAnswers:", globalsection1D);
-        console.log("GlobalOraJhuraAnswer:", globalOraJhuraAnswer); // Log the ORA/JHURA answer
+            // Map 1B: Number of people or records
+            switch (numRecords) {
+                case "0": // 1-499
+                    numRecords = "0";  // 1-499 maps to "0"
+                    break;
+                case "1": // 500-9,999
+                    numRecords = "1";  // 500-9,999 maps to "1"
+                    break;
+                case "2": // 10,000 or more
+                    numRecords = "2";  // 10,000 or more maps to "2"
+                    break;
+                default:
+                    numRecords = "0"; // Default to 1-499 if no input is provided
+            }
 
-        // Set values for testing only
-        var dataLeavingJHM = "N"; // Is data leaving JHM
-        var numRecords = globalsection1B; // 499, 9999 or 10000
-        var consentYN = "Y"; // Y or N
-        var humanDataSharingLevel = "1"; // 0=Directly identifiable data; 1=LDS; 3=Person-level data with No PHI or PII; 4=Aggregate (counts ); 5=Data will not be copied, moved, or shared
-        var involvesSensitiveHealthInfo = "N"; // Y or N
-        var dataSharingAgreement = "N"; // Y or N
-        let responseString = '';  // Declare a variable to hold the response string
-        var tierArray = [
-            ["2.P.7", "C2"],
-            ["2.P.2", "C1"],
-            ["2.J.2", "C4"],
-            ["2.R.2", "C1"]
-        ];
+            // Map 1C: Human data sharing level
+            switch (humanDataSharingLevel) {
+                case "0": // "Directly identifiable data"
+                    humanDataSharingLevel = "0";  // Map to "0"
+                    break;
+                case "1": // "LDS"
+                    humanDataSharingLevel = "1";  // Map to "1"
+                    break;
+                case "2": // "Person-level data with No PHI or PII"
+                    humanDataSharingLevel = "2";  // Map to "2"
+                    break;
+                case "3": // "Aggregate (counts)"
+                    humanDataSharingLevel = "3";  // Map to "3"
+                    break;
+                case "4": // "Data will not be copied, moved, or shared"
+                    humanDataSharingLevel = "4";  // Map to "4"
+                    break;
+                default:
+                    humanDataSharingLevel = "4"; // Default to "Data will not be copied, moved, or shared"
+            }
 
-        // Wrap everything into an object
-        var dataToSend = {
-            tierArray: tierArray,
-            dataLeavingJHM: dataLeavingJHM,
-            numRecords: numRecords,
-            consentYN: consentYN,
-            humanDataSharingLevel: humanDataSharingLevel,
-            involvesSensitiveHealthInfo: involvesSensitiveHealthInfo,
-            dataSharingAgreement: dataSharingAgreement,
-            oraJhuraAnswer: globalOraJhuraAnswer // Include ORA/JHURA in the data sent
-        };
+            // Send the collected data
+            const dataToSend = {
+                tierArray: dataTableSelections,  // 2D array [["2.P.7", "C2"], ...]
+                dataLeavingJHM: oraJhuraAnswer,  // "Y" or "N"
+                numRecords: numRecords,          // 0, 1, or 2
+                consentYN: consentYN,            // "Y" or "N"
+                humanDataSharingLevel: humanDataSharingLevel, // 0, 1, 2, 3, or 4
+                involvesSensitiveHealthInfo: involvesSensitiveHealthInfo, // "Y" or "N"
+                dataSharingAgreement: oraJhuraAnswer  // "Y" or "N"
+            };
 
-        // Log the data to ensure it's not null or undefined
-        console.log(dataToSend);
+            console.log("Sending data to server:", dataToSend);
 
-        try {
+            // Make the API call to the server
             const response = await fetch('/Utility/GetTierLevel', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(dataToSend)
             });
@@ -750,15 +744,30 @@
                 throw new Error('Network response was not ok');
             }
 
-            responseString = await response.text();  // Wait for the response to be converted to text
-            console.log('Response:', responseString);  // Log the response
-            return responseString;  // Return the response string to the calling function
+            // Handle the response from the server
+            const result = await response.text();
+            console.log('Received result from server:', result);
+
+            // Display the calculated tier in the console
+            document.getElementById('risk-level-note').innerText = `Your risk level is: ${result}`;
         } catch (error) {
-            console.error('Fetch error:', error);
-            throw error;  // Propagate the error
+            console.error('Error while sending data to server:', error);
         }
     }
+
+    // Event listener to trigger risk level calculation when an input changes
+    document.querySelectorAll('input').forEach(input => {
+        input.addEventListener('change', updateSelectedOptions);
+    });
+
+    // Ensure sticky note stays at the bottom of the screen when scrolling
+    window.addEventListener('scroll', function () {
+        const riskNote = document.getElementById('risk-level-note');
+        riskNote.style.position = 'fixed';
+        riskNote.style.bottom = '0';
+    });
 </script>
+
 
 <script>
 document.addEventListener("DOMContentLoaded", function () {

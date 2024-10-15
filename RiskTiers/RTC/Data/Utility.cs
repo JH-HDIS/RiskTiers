@@ -54,7 +54,7 @@ namespace ClinicalResearchApp.Data
                         Console.WriteLine($"The colPos is: {toolType}");
                     
                         // Calculate Tier for the row
-                        if (toolType == "P")
+                        if ((toolType == "P") && (colPos != "C7")) 
                         {   if (dataLeaving == "N") 
                             {
                                 tiers.Add("Tier A");
@@ -79,7 +79,7 @@ namespace ClinicalResearchApp.Data
                             }
                         }
 
-                        if (toolType == "J")
+                        if ((toolType == "J") && (colPos != "C7")) 
                         {   if ((colPos ==  "C4" || colPos == "C5" || colPos == "C6") && involvesSensitiveHealth == "N")
                             {
                             tiers.Add("Tier A");
@@ -112,7 +112,7 @@ namespace ClinicalResearchApp.Data
                                 }
                             }
                         }
-                        if (toolType == "R")
+                        if ((toolType == "R") && (colPos != "C7")) 
                         {   
                             if ((colPos ==  "C4" || colPos == "C5" || colPos == "C6") && involvesSensitiveHealth == "N")
                             {
@@ -128,7 +128,7 @@ namespace ClinicalResearchApp.Data
                                 }
                             }
                         }
-                        if (toolType == "E")
+                        if ((toolType == "E") && (colPos != "C7")) 
                         {   
                             if (dataSharing == "N")
                             {
