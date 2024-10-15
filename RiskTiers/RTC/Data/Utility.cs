@@ -134,6 +134,8 @@ namespace ClinicalResearchApp.Data
                             {
                                 tiers.Add("Tier C");
                             }
+                            else {tiers.Add("Tier X");}
+
                         }
                     }
                 }
