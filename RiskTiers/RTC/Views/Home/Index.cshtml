@@ -958,8 +958,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 });
 </script>
-
-
 <script>
 document.addEventListener("DOMContentLoaded", function () {
     const generatePdfButton = document.getElementById("generatePdfButton");
@@ -994,7 +992,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // PDF Generation function
     function generatePdf() {
         const { jsPDF } = window.jspdf;
-        const doc = new jsPDF();
+        const doc = new jsPDF({ orientation: 'landscape' }); // Set to landscape mode
         const tableData = collectDataTableSelections();
 
         const rtcCompletionDate = document.getElementById("RTCCompletionDate")?.value || "N/A";
@@ -1008,138 +1006,129 @@ document.addEventListener("DOMContentLoaded", function () {
         const studyContactJHED = document.getElementById("StudyContactJHED")?.value || "N/A";
         const studyContactEmailAddress = document.getElementById("StudyContactEmailAddress")?.value || "N/A";
 
-        // Set risk level note (calculated from another function)
-        const riskLevelNote = document.getElementById("risk-level-note").innerText || "Not calculated";
-
         doc.setFontSize(16);
         doc.text("Risk Tiers Calculator - PDF Summary", 10, 10);
 
-        // Adjusted Y-values to prevent overlap, and added color to user responses
+        // Set the color of the user responses to blue
         doc.setFontSize(12);
-        doc.text("RTC Completion Date:", 10, 20);
-        doc.setTextColor(70, 130, 180); // Soft blue color for user responses
-        doc.text(rtcCompletionDate, 90, 20);
-
-        doc.setTextColor(0, 0, 0); // Reset to black for labels
-        doc.text("IRB Application Number:", 10, 30);
-        doc.setTextColor(70, 130, 180);
-        doc.text(irbApplicationNumber, 90, 30);
-
+        doc.setTextColor(0, 0, 0);  // Labels remain black
+        doc.text("RTC Completion Date: ", 10, 20);
+        doc.setTextColor(0, 102, 204);  // Change the color to blue for responses
+        doc.text(rtcCompletionDate, 70, 20);  // User response
+        doc.setTextColor(0, 0, 0); // Switch back to black for labels
+        doc.text("IRB Application Number: ", 10, 30);
+        doc.setTextColor(0, 102, 204);  // Change the color to blue for responses
+        doc.text(irbApplicationNumber, 70, 30);  // User response
+        doc.setTextColor(0, 0, 0); 
+        doc.text("PI First Name: ", 10, 40);
+        doc.setTextColor(0, 102, 204);
+        doc.text(piFirstName, 70, 40); 
         doc.setTextColor(0, 0, 0);
-        doc.text("PI First Name:", 10, 40);
-        doc.setTextColor(70, 130, 180);
-        doc.text(piFirstName, 90, 40);
-
+        doc.text("PI Last Name: ", 10, 50);
+        doc.setTextColor(0, 102, 204);
+        doc.text(piLastName, 70, 50); 
         doc.setTextColor(0, 0, 0);
-        doc.text("PI Last Name:", 10, 50);
-        doc.setTextColor(70, 130, 180);
-        doc.text(piLastName, 90, 50);
-
+        doc.text("PI JHED: ", 10, 60);
+        doc.setTextColor(0, 102, 204);
+        doc.text(piJHED, 70, 60); 
         doc.setTextColor(0, 0, 0);
-        doc.text("PI JHED:", 10, 60);
-        doc.setTextColor(70, 130, 180);
-        doc.text(piJHED, 90, 60);
+        doc.text("PI Email Address: ", 10, 70);
+        doc.setTextColor(0, 102, 204);
+        doc.text(piEmailAddress, 70, 70);
 
+        // Study Contact Info Section
         doc.setTextColor(0, 0, 0);
-        doc.text("PI Email Address:", 10, 70);
-        doc.setTextColor(70, 130, 180);
-        doc.text(piEmailAddress, 90, 70);
-
-        // Study Contact Information Section
-        doc.setFontSize(14);
-        doc.text("Study Contact Information (Optional)", 10, 80);
-        doc.setFontSize(12);
+        doc.text("Study Contact First Name: ", 10, 80);
+        doc.setTextColor(0, 102, 204);
+        doc.text(studyContactFirstName, 70, 80); 
         doc.setTextColor(0, 0, 0);
-        doc.text("Study Contact First Name:", 10, 90);
-        doc.setTextColor(70, 130, 180);
-        doc.text(studyContactFirstName, 90, 90);
-
+        doc.text("Study Contact Last Name: ", 10, 90);
+        doc.setTextColor(0, 102, 204);
+        doc.text(studyContactLastName, 70, 90); 
         doc.setTextColor(0, 0, 0);
-        doc.text("Study Contact Last Name:", 10, 100);
-        doc.setTextColor(70, 130, 180);
-        doc.text(studyContactLastName, 90, 100);
-
+        doc.text("Study Contact JHED: ", 10, 100);
+        doc.setTextColor(0, 102, 204);
+        doc.text(studyContactJHED, 70, 100); 
         doc.setTextColor(0, 0, 0);
-        doc.text("Study Contact JHED:", 10, 110);
-        doc.setTextColor(70, 130, 180);
-        doc.text(studyContactJHED, 90, 110);
-
-        doc.setTextColor(0, 0, 0);
-        doc.text("Study Contact Email Address:", 10, 120);
-        doc.setTextColor(70, 130, 180);
-        doc.text(studyContactEmailAddress, 90, 120);
+        doc.text("Study Contact Email Address: ", 10, 110);
+        doc.setTextColor(0, 102, 204);
+        doc.text(studyContactEmailAddress, 70, 110);
 
         // Section 1: Data Characteristics and Data Access
         doc.setFontSize(14);
-        doc.setTextColor(0, 0, 0);
-        doc.text("Section 1: Data Characteristics and Data Access", 10, 130);
+        doc.setTextColor(0, 0, 0);  // Black for the section header
+        doc.text("Section 1: Data Characteristics and Data Access", 10, 120);
         doc.setFontSize(12);
 
+        doc.text("1A. Involves Sensitive Health Info: ", 10, 130);
+        doc.setTextColor(0, 102, 204);
         const involvesSensitiveHealthInfo = document.querySelector('input[name="InvolvesSensitiveHealthInfo"]:checked')?.nextElementSibling.textContent || "N/A";
-        doc.text("1A. Involves Sensitive Health Info:", 10, 140);
-        doc.setTextColor(70, 130, 180);
-        doc.text(involvesSensitiveHealthInfo, 90, 140);
+        doc.text(involvesSensitiveHealthInfo, 120, 130); 
 
+        doc.setTextColor(0, 0, 0); 
+        doc.text("1B. Number of People/Records: ", 10, 140);
+        doc.setTextColor(0, 102, 204);
         const numberOfPeopleOrRecords = document.querySelector('input[name="NumberOfPeopleOrRecords"]:checked')?.nextElementSibling.textContent || "N/A";
-        doc.setTextColor(0, 0, 0);
-        doc.text("1B. Number of People/Records:", 10, 150);
-        doc.setTextColor(70, 130, 180);
-        doc.text(numberOfPeopleOrRecords, 90, 150);
+        doc.text(numberOfPeopleOrRecords, 120, 140);  
 
+        doc.setTextColor(0, 0, 0); 
+        doc.text("1C. Human Data Sharing Level: ", 10, 150);
+        doc.setTextColor(0, 102, 204);
         const humanDataSharingLevel = document.querySelector('input[name="HumanDataSharingLevel"]:checked')?.nextElementSibling.textContent || "N/A";
-        doc.setTextColor(0, 0, 0);
-        doc.text("1C. Human Data Sharing Level:", 10, 160);
-        doc.setTextColor(70, 130, 180);
-        doc.text(humanDataSharingLevel, 90, 160);
+        doc.text(humanDataSharingLevel, 120, 150); 
 
+        doc.setTextColor(0, 0, 0); 
+        doc.text("1D. All Activities Covered By Consent: ", 10, 160);
+        doc.setTextColor(0, 102, 204);
         const allActivitiesCoveredByConsent = document.querySelector('input[name="AllActivitiesCoveredByConsent"]:checked')?.nextElementSibling.textContent || "N/A";
-        doc.setTextColor(0, 0, 0);
-        doc.text("1D. All Activities Covered By Consent:", 10, 170);
-        doc.setTextColor(70, 130, 180);
-        doc.text(allActivitiesCoveredByConsent, 90, 170);
+        doc.text(allActivitiesCoveredByConsent, 120, 160); 
 
-        // Section 2: Data Storage Table (only selected columns other than "Not Used")
+        // Start Section 2 on a new page
+        doc.addPage();
+
+        // Section 2: Data Storage Table
         doc.setFontSize(14);
         doc.setTextColor(0, 0, 0);
-        doc.text("Section 2: Data Storage", 10, 180);
+        doc.text("Section 2: Data Storage", 10, 20);
         doc.setFontSize(12);
 
-        const filteredTableData = tableData.filter(row => !row.columns.includes("C7")); // Filter out rows with "Not Used"
-        if (filteredTableData.length > 0) {
-            doc.autoTable({
-                head: [["Option", "Text PHI", "PHI>LDS", "Limited Dataset (LDS)", "PHI but no PII", "Person-level data", "Aggregate (counts)"]],
-                body: filteredTableData.map((row) => [
-                    row.option,
+        // Add the Data Table with only selected radio buttons (excluding Not Used)
+        doc.autoTable({
+            head: [["Option", "Text PHI", "PHI > LDS", "LDS", "PHI but no PII", "No PHI/PII", "Aggregate (Counts)", "Not Used"]],
+            body: tableData.filter(row => !row.columns.includes("C7")) // Exclude rows with "Not Used" (C7)
+                .map((row) => [
+                    row.optionWithDescription, // Full description in the first column
                     row.columns.includes("C1") ? "✔" : "",
                     row.columns.includes("C2") ? "✔" : "",
                     row.columns.includes("C3") ? "✔" : "",
                     row.columns.includes("C4") ? "✔" : "",
                     row.columns.includes("C5") ? "✔" : "",
-                    row.columns.includes("C6") ? "✔" : ""
+                    row.columns.includes("C6") ? "✔" : "",
                 ]),
-                startY: 190,
-            });
-        }
+            startY: 30,
+            theme: 'grid',
+            headStyles: { fillColor: [0, 102, 204] }, // Blue header color
+        });
 
-        // Add the risk level note to the PDF
-        doc.setFontSize(14);
-        doc.setTextColor(0, 0, 0);
-        doc.text("Risk Level:", 10, doc.lastAutoTable.finalY + 20);
-        doc.setTextColor(70, 130, 180);
-        doc.text(riskLevelNote, 60, doc.lastAutoTable.finalY + 20);
+        // Add the ORA/JHURA question and risk level below the table
+        const dataSharingAgreement = document.querySelector('input[name="DataSharingAgreement"]:checked')?.nextElementSibling.textContent || "N/A";
+        doc.text("Is data sharing covered by an ORA/JHURA agreement: " + dataSharingAgreement, 10, doc.lastAutoTable.finalY + 10);
+
+        const riskLevel = document.getElementById('risk-level-note').innerText || "Risk level not calculated";
+        doc.text("Risk Level: " + riskLevel, 10, doc.lastAutoTable.finalY + 20);
 
         return doc;
     }
 
-    // Function to collect Data Table radio button selections and return as an array of objects
     function collectDataTableSelections() {
         const dataTableSelections = [];
         const dataTableRadioButtons = document.querySelectorAll('input[type="radio"][data-option]');
 
         dataTableRadioButtons.forEach((radio) => {
-            if (radio.checked) {
-                const option = radio.getAttribute("data-option");
-                const column = radio.getAttribute("data-column");
+            if (radio.checked && radio.getAttribute("data-column") !== "C7") { // Exclude "Not Used" (C7)
+                const option = radio.getAttribute("data-option"); // Get the option number (e.g., "2.P.1")
+                const column = radio.getAttribute("data-column"); // Get the column where the radio button was selected
+                const optionDescription = radio.closest("tr").querySelector("td").textContent.trim(); // Get the description text from the first cell in the row
 
                 let existing = dataTableSelections.find((entry) => entry.option === option);
                 if (existing) {
@@ -1148,6 +1137,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     dataTableSelections.push({
                         option: option,
                         columns: [column],
+                        optionWithDescription: `${option} ${optionDescription}`, // Add both the option number and its description
                     });
                 }
             }
@@ -1155,18 +1145,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
         return dataTableSelections;
     }
-
-    // Add the conditional logic to display ORA/JHURA based on selection
-    document.querySelectorAll('input[name="dataStorageOption"]').forEach((input) => {
-        input.addEventListener('change', function () {
-            const isExternalToolSelected = document.querySelector('input[name="dataStorageOption"][data-column="C5"]:checked');
-            if (isExternalToolSelected) {
-                document.getElementById("ora-jhura-question").style.display = "block";
-            } else {
-                document.getElementById("ora-jhura-question").style.display = "none";
-            }
-        });
-    });
 });
 </script>
 
