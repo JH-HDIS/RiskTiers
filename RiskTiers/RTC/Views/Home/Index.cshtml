@@ -767,6 +767,197 @@
         riskNote.style.bottom = '0';
     });
 </script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const generatePdfButton = document.getElementById("generatePdfButton");
+    const sendEmailBtn = document.getElementById("sendEmailBtn");
+    const skipBtn = document.getElementById("skipBtn");
+    const userEmailInput = document.getElementById("userEmail");
+
+    // Handle the case where the user skips the email
+    skipBtn.addEventListener("click", function () {
+        const doc = generatePdf();
+        const pdfBlob = doc.output("blob");
+        const blobUrl = URL.createObjectURL(pdfBlob);
+        window.open(blobUrl, "_blank");
+        $("#emailModal").modal("hide");
+    });
+
+    sendEmailBtn.addEventListener("click", function () {
+        const email = userEmailInput.value;
+        if (email) {
+            console.log("Send PDF to email:", email);
+            alert("A copy of the PDF will be sent to " + email);
+            $("#emailModal").modal("hide");
+        } else {
+            alert("Please enter a valid email address.");
+        }
+    });
+
+    generatePdfButton.addEventListener("click", function () {
+        $("#emailModal").modal("show");
+    });
+
+    // PDF Generation function
+    function generatePdf() {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+
+        const rtcCompletionDate = document.getElementById("RTCCompletionDate")?.value || "N/A";
+        const irbApplicationNumber = document.getElementById("IRBApplicationNumber")?.value || "N/A";
+        const piFirstName = document.getElementById("PIFirstName")?.value || "N/A";
+        const piLastName = document.getElementById("PILastName")?.value || "N/A";
+        const piJHED = document.getElementById("PIJHED")?.value || "N/A";
+        const piEmailAddress = document.getElementById("PIEmailAddress")?.value || "N/A";
+        
+        // Risk Level Note (Passed into the PDF)
+        const riskLevelNote = document.getElementById("risk-level-note").textContent || "N/A";
+
+        doc.setFontSize(16);
+        doc.text("Risk Tiers Calculator - PDF Summary", 10, 10);
+
+        // Adjusted Y-values and colored responses
+        doc.setFontSize(12);
+        doc.text("RTC Completion Date: " + rtcCompletionDate, 10, 20);
+        doc.text("IRB Application Number: " + irbApplicationNumber, 10, 30);
+        doc.text("PI First Name: ", 10, 40);
+        doc.setTextColor(0, 102, 204);  // Set user response color
+        doc.text(piFirstName, 70, 40);
+
+        doc.setTextColor(0, 0, 0);  // Reset color to black
+        doc.text("PI Last Name: ", 10, 50);
+        doc.setTextColor(0, 102, 204); 
+        doc.text(piLastName, 70, 50);
+
+        doc.setTextColor(0, 0, 0);  // Reset color to black
+        doc.text("PI JHED: ", 10, 60);
+        doc.setTextColor(0, 102, 204); 
+        doc.text(piJHED, 70, 60);
+
+        doc.setTextColor(0, 0, 0);  // Reset color to black
+        doc.text("PI Email Address: ", 10, 70);
+        doc.setTextColor(0, 102, 204); 
+        doc.text(piEmailAddress, 70, 70);
+
+        // Section 1: Data Characteristics and Data Access
+        doc.setFontSize(14);
+        doc.setTextColor(0, 0, 0);
+        doc.text("Section 1: Data Characteristics and Data Access", 10, 80);
+        doc.setFontSize(12);
+
+        const involvesSensitiveHealthInfo = document.querySelector('input[name="InvolvesSensitiveHealthInfo"]:checked')?.nextElementSibling.textContent || "N/A";
+        doc.text("1A. Involves Sensitive Health Info: ", 10, 90);
+        doc.setTextColor(0, 102, 204);
+        doc.text(involvesSensitiveHealthInfo, 70, 90);
+
+        const numberOfPeopleOrRecords = document.querySelector('input[name="NumberOfPeopleOrRecords"]:checked')?.nextElementSibling.textContent || "N/A";
+        doc.setTextColor(0, 0, 0);
+        doc.text("1B. Number of People/Records: ", 10, 100);
+        doc.setTextColor(0, 102, 204);
+        doc.text(numberOfPeopleOrRecords, 70, 100);
+
+        const humanDataSharingLevel = document.querySelector('input[name="HumanDataSharingLevel"]:checked')?.nextElementSibling.textContent || "N/A";
+        doc.setTextColor(0, 0, 0);
+        doc.text("1C. Human Data Sharing Level: ", 10, 110);
+        doc.setTextColor(0, 102, 204);
+        doc.text(humanDataSharingLevel, 70, 110);
+
+        const allActivitiesCoveredByConsent = document.querySelector('input[name="AllActivitiesCoveredByConsent"]:checked')?.nextElementSibling.textContent || "N/A";
+        doc.setTextColor(0, 0, 0);
+        doc.text("1D. All Activities Covered By Consent: ", 10, 120);
+        doc.setTextColor(0, 102, 204);
+        doc.text(allActivitiesCoveredByConsent, 70, 120);
+
+        // Section 2: Data Storage Table
+        doc.setFontSize(14);
+        doc.setTextColor(0, 0, 0);
+        doc.text("Section 2: Data Storage", 10, 130);
+        doc.setFontSize(12);
+
+        // Data storage descriptions
+        const optionDescriptions = {
+            "2.P.1": "SAFER or SAFE Desktop",
+            "2.P.2": "JH PMAP",
+            "2.P.3": "JHU OpenSpecimen",
+            "2.P.4": "JHU Qualtrics",
+            "2.P.5": "JHU/ACH REDCap",
+            "2.P.6": "SAFESTOR",
+            "2.P.7": "Discovery HPC",
+            "2.J.1": "JH OneDrive / SharePoint / Teams",
+            "2.J.2": "Local Computer",
+            // Add additional option descriptions here...
+        };
+
+        // Add the Data Table with relevant headers and selected options
+        doc.autoTable({
+            head: [["Option", "Text PHI", "PHI > LDS", "LDS", "PHI but no PII", "No PHI/PII", "Aggregate (Counts)", "Not Used"]],
+            body: collectDataTableSelections()
+                .filter((row) => !row.columns.includes("C7"))  // Filter out "Not Used"
+                .map((row) => [
+                    row.option + " " + (optionDescriptions[row.option] || ""),  // Add descriptions from the map
+                    row.columns.includes("C1") ? "x" : "",
+                    row.columns.includes("C2") ? "x" : "",
+                    row.columns.includes("C3") ? "x" : "",
+                    row.columns.includes("C4") ? "x" : "",
+                    row.columns.includes("C5") ? "x" : "",
+                    row.columns.includes("C6") ? "x" : "",
+                ]),
+            startY: 140,
+        });
+
+        const dataSharingAgreement = document.querySelector('input[name="DataSharingAgreement"]:checked')?.nextElementSibling.textContent || "N/A";
+        doc.text("Is data sharing covered by an ORA/JHURA agreement: " + dataSharingAgreement, 10, doc.lastAutoTable.finalY + 10);
+
+        // Display the risk level after the data table
+        doc.setFontSize(14);
+        doc.setTextColor(0, 0, 0);
+        doc.text("Calculated Risk Level: " + riskLevelNote, 10, doc.lastAutoTable.finalY + 20);
+
+        // Add PDF versioning
+        doc.setFontSize(10);
+        doc.text("PDF Version: v1.0", 10, doc.lastAutoTable.finalY + 30);
+
+        return doc;
+    }
+
+    function collectDataTableSelections() {
+        const dataTableSelections = [];
+        const dataTableRadioButtons = document.querySelectorAll('input[type="radio"][data-option]');
+
+        dataTableRadioButtons.forEach((radio) => {
+            if (radio.checked) {
+                const option = radio.getAttribute("data-option");
+                const column = radio.getAttribute("data-column");
+
+                let existing = dataTableSelections.find((entry) => entry.option === option);
+                if (existing) {
+                    existing.columns.push(column);
+                } else {
+                    dataTableSelections.push({
+                        option: option,
+                        columns: [column],
+                    });
+                }
+            }
+        });
+
+        return dataTableSelections;
+    }
+
+    // Logic to show/hide ORA/JHURA question based on selection
+    const oraJhuraQuestion = document.getElementById("ora-jhura-question");
+    document.querySelectorAll('input[type="radio"][data-option]').forEach(function (radio) {
+        radio.addEventListener("change", function () {
+            if (this.getAttribute("data-column") !== "C7") {
+                oraJhuraQuestion.style.display = "block";
+            } else {
+                oraJhuraQuestion.style.display = "none";
+            }
+        });
+    });
+
+});
+</script>
 
 
 <script>
@@ -817,70 +1008,130 @@ document.addEventListener("DOMContentLoaded", function () {
         const studyContactJHED = document.getElementById("StudyContactJHED")?.value || "N/A";
         const studyContactEmailAddress = document.getElementById("StudyContactEmailAddress")?.value || "N/A";
 
+        // Set risk level note (calculated from another function)
+        const riskLevelNote = document.getElementById("risk-level-note").innerText || "Not calculated";
+
         doc.setFontSize(16);
         doc.text("Risk Tiers Calculator - PDF Summary", 10, 10);
 
-        // Adjusted Y-values to prevent overlap
+        // Adjusted Y-values to prevent overlap, and added color to user responses
         doc.setFontSize(12);
-        doc.text("RTC Completion Date: " + rtcCompletionDate, 10, 20);
-        doc.text("IRB Application Number: " + irbApplicationNumber, 10, 30);
-        doc.text("PI First Name: " + piFirstName, 10, 40);
-        doc.text("PI Last Name: " + piLastName, 10, 50);
-        doc.text("PI JHED: " + piJHED, 10, 60);
-        doc.text("PI Email Address: " + piEmailAddress, 10, 70);
+        doc.text("RTC Completion Date:", 10, 20);
+        doc.setTextColor(70, 130, 180); // Soft blue color for user responses
+        doc.text(rtcCompletionDate, 90, 20);
 
+        doc.setTextColor(0, 0, 0); // Reset to black for labels
+        doc.text("IRB Application Number:", 10, 30);
+        doc.setTextColor(70, 130, 180);
+        doc.text(irbApplicationNumber, 90, 30);
+
+        doc.setTextColor(0, 0, 0);
+        doc.text("PI First Name:", 10, 40);
+        doc.setTextColor(70, 130, 180);
+        doc.text(piFirstName, 90, 40);
+
+        doc.setTextColor(0, 0, 0);
+        doc.text("PI Last Name:", 10, 50);
+        doc.setTextColor(70, 130, 180);
+        doc.text(piLastName, 90, 50);
+
+        doc.setTextColor(0, 0, 0);
+        doc.text("PI JHED:", 10, 60);
+        doc.setTextColor(70, 130, 180);
+        doc.text(piJHED, 90, 60);
+
+        doc.setTextColor(0, 0, 0);
+        doc.text("PI Email Address:", 10, 70);
+        doc.setTextColor(70, 130, 180);
+        doc.text(piEmailAddress, 90, 70);
+
+        // Study Contact Information Section
         doc.setFontSize(14);
         doc.text("Study Contact Information (Optional)", 10, 80);
         doc.setFontSize(12);
-        doc.text("Study Contact First Name: " + studyContactFirstName, 10, 90);
-        doc.text("Study Contact Last Name: " + studyContactLastName, 10, 100);
-        doc.text("Study Contact JHED: " + studyContactJHED, 10, 110);
-        doc.text("Study Contact Email Address: " + studyContactEmailAddress, 10, 120);
+        doc.setTextColor(0, 0, 0);
+        doc.text("Study Contact First Name:", 10, 90);
+        doc.setTextColor(70, 130, 180);
+        doc.text(studyContactFirstName, 90, 90);
+
+        doc.setTextColor(0, 0, 0);
+        doc.text("Study Contact Last Name:", 10, 100);
+        doc.setTextColor(70, 130, 180);
+        doc.text(studyContactLastName, 90, 100);
+
+        doc.setTextColor(0, 0, 0);
+        doc.text("Study Contact JHED:", 10, 110);
+        doc.setTextColor(70, 130, 180);
+        doc.text(studyContactJHED, 90, 110);
+
+        doc.setTextColor(0, 0, 0);
+        doc.text("Study Contact Email Address:", 10, 120);
+        doc.setTextColor(70, 130, 180);
+        doc.text(studyContactEmailAddress, 90, 120);
 
         // Section 1: Data Characteristics and Data Access
         doc.setFontSize(14);
+        doc.setTextColor(0, 0, 0);
         doc.text("Section 1: Data Characteristics and Data Access", 10, 130);
         doc.setFontSize(12);
 
         const involvesSensitiveHealthInfo = document.querySelector('input[name="InvolvesSensitiveHealthInfo"]:checked')?.nextElementSibling.textContent || "N/A";
-        doc.text("1A. Involves Sensitive Health Info: " + involvesSensitiveHealthInfo, 10, 140);
+        doc.text("1A. Involves Sensitive Health Info:", 10, 140);
+        doc.setTextColor(70, 130, 180);
+        doc.text(involvesSensitiveHealthInfo, 90, 140);
 
         const numberOfPeopleOrRecords = document.querySelector('input[name="NumberOfPeopleOrRecords"]:checked')?.nextElementSibling.textContent || "N/A";
-        doc.text("1B. Number of People/Records: " + numberOfPeopleOrRecords, 10, 150);
+        doc.setTextColor(0, 0, 0);
+        doc.text("1B. Number of People/Records:", 10, 150);
+        doc.setTextColor(70, 130, 180);
+        doc.text(numberOfPeopleOrRecords, 90, 150);
 
         const humanDataSharingLevel = document.querySelector('input[name="HumanDataSharingLevel"]:checked')?.nextElementSibling.textContent || "N/A";
-        doc.text("1C. Human Data Sharing Level: " + humanDataSharingLevel, 10, 160);
+        doc.setTextColor(0, 0, 0);
+        doc.text("1C. Human Data Sharing Level:", 10, 160);
+        doc.setTextColor(70, 130, 180);
+        doc.text(humanDataSharingLevel, 90, 160);
 
         const allActivitiesCoveredByConsent = document.querySelector('input[name="AllActivitiesCoveredByConsent"]:checked')?.nextElementSibling.textContent || "N/A";
-        doc.text("1D. All Activities Covered By Consent: " + allActivitiesCoveredByConsent, 10, 170);
+        doc.setTextColor(0, 0, 0);
+        doc.text("1D. All Activities Covered By Consent:", 10, 170);
+        doc.setTextColor(70, 130, 180);
+        doc.text(allActivitiesCoveredByConsent, 90, 170);
 
-        // Section 2: Data Storage Table
+        // Section 2: Data Storage Table (only selected columns other than "Not Used")
         doc.setFontSize(14);
+        doc.setTextColor(0, 0, 0);
         doc.text("Section 2: Data Storage", 10, 180);
         doc.setFontSize(12);
 
-        // Add the Data Table with checkmarks
-        doc.autoTable({
-            head: [["Option", "Text PHI", "PHI>LDS", "Limited Dataset (LDS)", "PHI but no PII", "Person-level data", "Aggregate (counts)", "Not Used"]],
-            body: tableData.map((row) => [
-                row.option,
-                row.columns.includes("C1") ? "x" : "",
-                row.columns.includes("C2") ? "x" : "",
-                row.columns.includes("C3") ? "x" : "",
-                row.columns.includes("C4") ? "x" : "",
-                row.columns.includes("C5") ? "x" : "",
-                row.columns.includes("C6") ? "x" : "",
-                row.columns.includes("C7") ? "x" : "",
-            ]),
-            startY: 190,
-        });
+        const filteredTableData = tableData.filter(row => !row.columns.includes("C7")); // Filter out rows with "Not Used"
+        if (filteredTableData.length > 0) {
+            doc.autoTable({
+                head: [["Option", "Text PHI", "PHI>LDS", "Limited Dataset (LDS)", "PHI but no PII", "Person-level data", "Aggregate (counts)"]],
+                body: filteredTableData.map((row) => [
+                    row.option,
+                    row.columns.includes("C1") ? "✔" : "",
+                    row.columns.includes("C2") ? "✔" : "",
+                    row.columns.includes("C3") ? "✔" : "",
+                    row.columns.includes("C4") ? "✔" : "",
+                    row.columns.includes("C5") ? "✔" : "",
+                    row.columns.includes("C6") ? "✔" : ""
+                ]),
+                startY: 190,
+            });
+        }
 
-        const dataSharingAgreement = document.querySelector('input[name="DataSharingAgreement"]:checked')?.nextElementSibling.textContent || "N/A";
-        doc.text("Is data sharing covered by an ORA/JHURA agreement: " + dataSharingAgreement, 10, doc.lastAutoTable.finalY + 10);
+        // Add the risk level note to the PDF
+        doc.setFontSize(14);
+        doc.setTextColor(0, 0, 0);
+        doc.text("Risk Level:", 10, doc.lastAutoTable.finalY + 20);
+        doc.setTextColor(70, 130, 180);
+        doc.text(riskLevelNote, 60, doc.lastAutoTable.finalY + 20);
 
         return doc;
     }
 
+    // Function to collect Data Table radio button selections and return as an array of objects
     function collectDataTableSelections() {
         const dataTableSelections = [];
         const dataTableRadioButtons = document.querySelectorAll('input[type="radio"][data-option]');
@@ -904,8 +1155,19 @@ document.addEventListener("DOMContentLoaded", function () {
 
         return dataTableSelections;
     }
-});
 
+    // Add the conditional logic to display ORA/JHURA based on selection
+    document.querySelectorAll('input[name="dataStorageOption"]').forEach((input) => {
+        input.addEventListener('change', function () {
+            const isExternalToolSelected = document.querySelector('input[name="dataStorageOption"][data-column="C5"]:checked');
+            if (isExternalToolSelected) {
+                document.getElementById("ora-jhura-question").style.display = "block";
+            } else {
+                document.getElementById("ora-jhura-question").style.display = "none";
+            }
+        });
+    });
+});
 </script>
 
 <script>
