@@ -904,12 +904,12 @@ document.addEventListener("DOMContentLoaded", function () {
             head: [["Option", "Text PHI", "PHI > LDS", "LDS", "PHI but no PII", "No PHI/PII", "Aggregate (Counts)", "Not Used"]],
             body: tableData.map((row) => [
                 row.optionWithDescription,  // Include the option with its description
-                row.columns.includes("C1") ? "✔" : "",
-                row.columns.includes("C2") ? "✔" : "",
-                row.columns.includes("C3") ? "✔" : "",
-                row.columns.includes("C4") ? "✔" : "",
-                row.columns.includes("C5") ? "✔" : "",
-                row.columns.includes("C6") ? "✔" : "",
+                row.columns.includes("C1") ? "x" : "",
+                row.columns.includes("C2") ? "x" : "",
+                row.columns.includes("C3") ? "x" : "",
+                row.columns.includes("C4") ? "x" : "",
+                row.columns.includes("C5") ? "x" : "",
+                row.columns.includes("C6") ? "x" : "",
             ]),
             startY: 20,
         });
