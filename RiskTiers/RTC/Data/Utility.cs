@@ -159,7 +159,7 @@ namespace ClinicalResearchApp.Data
                     }
                 }
             if (lowestTier == "") {
-                lowestTier = "Not enough info to calculate Tier";
+                lowestTier = "Not enough information provided to calculate Tier";
             }
             return lowestTier; // Return the lowest score found
         } 
