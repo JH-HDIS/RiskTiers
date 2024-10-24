@@ -523,13 +523,18 @@
         <button type="button" class="btn btn-secondary" data-dismiss="modal" id="skipBtn">Display PDF</button>
         <button type="button" class="btn btn-primary" id="sendEmailBtn">Yes, I'd like a copy</button>
       </div>
+
     </div>
   </div>
 </div>
     <button type="button" class="btn btn-primary" id="generatePdfButton">Generate PDF</button>
         
         <div class="container"><div id="risk-level-note" class="sticky-note">Need to answer more questions to determine risk level.</div>
+        
+        <div id="version-info" style="font-weight: bold; margin-top: 20px;">
+    Version: <span id="version-number">1.0</span>
         </div>
+</div>
         
     </form>
 </div>
@@ -768,6 +773,11 @@
     });
 </script>
 <script>
+    document.addEventListener("DOMContentLoaded", function () {
+    const versionNumber = "Version 1.0"; // Define the version number once here
+
+    // Display version number on the webpage
+    document.getElementById("version-number").textContent = versionNumber;
 document.addEventListener("DOMContentLoaded", function () {
     const generatePdfButton = document.getElementById("generatePdfButton");
     const sendEmailBtn = document.getElementById("sendEmailBtn");
